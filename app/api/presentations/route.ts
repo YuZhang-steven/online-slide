@@ -1,4 +1,4 @@
-import { createPresentationSchema } from "@/app/lib/zod/schemas";
+import { CreatePresentationSchema } from "@/app/lib/zod/schemas";
 import { prisma } from "@/prisma/prisma";
 import z from "zod";
 
@@ -18,15 +18,16 @@ export async function GET() {
     }
 
 }
+
 export async function POST(
     request: Request
 ) {
     try {
         const body = await request.json();
-        const validatedData = createPresentationSchema.parse(body);
+        const validatedData = CreatePresentationSchema.parse(body);
         const newPresentation = await prisma.presentation.create({
             data: {
-                title: validatedData.tittle,
+                title: validatedData.title,
             }
         })
         return new Response(JSON.stringify(newPresentation), { status: 201 });
@@ -37,8 +38,4 @@ export async function POST(
         }
         return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
     }
-
-
-
-
 }

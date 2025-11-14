@@ -1,17 +1,35 @@
+import CreateNewPresentation from "@/component/CreateNewPresentation";
+import { Presentation, PresentationsSchema } from "../lib/zod/schemas";
 
 export default async function PresetationPage() {
     const res = await fetch(`${process.env.BASE_URL}/api/presentations`, {
         method: 'GET',
-        // headers: {
-        //     'Content-Type': 'application/json',
-        // },
+        headers: {
+            'Content-Type': 'application/json',
+        },
     });
-    const data = await res.json();
+    if (!res.ok) {
+        throw new Error('Failed to fetch presentations');
+    }
+
+    const json = await res.json();
+
+    //validte with Zod
+    const data: Presentation[] = PresentationsSchema.parse(json);
     console.log(data);
 
 
 
+
+
+
+
     return (
-        <div>{data} </div>
+        <div>
+
+            <div>Presentations Loaded: {data.length}</div>
+            <CreateNewPresentation />
+        </div>
+
     )
 }
