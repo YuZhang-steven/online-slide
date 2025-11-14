@@ -1,19 +1,44 @@
+import { createPresentationSchema } from "@/app/lib/zod/schemas";
 import { prisma } from "@/prisma/prisma";
+import z from "zod";
 
 export async function GET() {
-    const presentations = await prisma.presentation.findMany();
-    console.log(presentations);
-
-
-    return new Response(JSON.stringify(presentations));
+    try {
+        const presentations = await prisma.presentation.findMany();
+        return new Response(JSON.stringify(presentations), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+        });
+    } catch (error) {
+        return new Response(JSON.stringify({
+            error: 'Internal Server Error'
+        }), {
+            status: 500, headers: { 'Content-Type': 'application/json' }
+        });
+    }
 
 }
 export async function POST(
     request: Request
-
 ) {
-    const body = await request.json();
+    try {
+        const body = await request.json();
+        const validatedData = createPresentationSchema.parse(body);
+        const newPresentation = await prisma.presentation.create({
+            data: {
+                title: validatedData.tittle,
+            }
+        })
+        return new Response(JSON.stringify(newPresentation), { status: 201 });
+    } catch (error) {
+        //treat zod validation errors
+        if (error instanceof z.ZodError) {
+            return new Response(JSON.stringify({ error: error }), { status: 400 });
+        }
+        return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
+    }
 
 
-    return new Response("Create a new Presenttion!");
+
+
 }
