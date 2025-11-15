@@ -1,14 +1,20 @@
+"use client";
 import { Card, CardFooter, CardHeader, CardTitle } from "./ui/card";
 
 type Props = {
+    id: string;
     title: string;
     date: string
 
 }
 
-export default function PresentationCard({ title, date }: Props) {
+export default function PresentationCard({ id, title, date }: Props) {
 
-
+    function handleClick(e: React.MouseEvent<HTMLDivElement>) {
+        e.preventDefault();
+        //navigate to presentation page
+        console.log(`Navigating to presentation with id: ${id}`);
+    }
     return (
         <div
             className="cursor-pointer 
@@ -16,6 +22,7 @@ export default function PresentationCard({ title, date }: Props) {
             transition-transform
             duration-200
             "
+            onClick={handleClick}
         >
             <Card>
                 <CardHeader>

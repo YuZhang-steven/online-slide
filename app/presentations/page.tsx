@@ -34,6 +34,8 @@ export default async function PresetationPage() {
                 {
                     data.map((presentation) => (
                         <PresentationCard
+                            key={presentation.id}
+                            id={presentation.id}
                             title={presentation.title}
                             date={presentation.updatedAt}
                         />
