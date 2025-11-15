@@ -8,7 +8,11 @@ type Props = {
 export default function PageSelectionArea({ pageArr }: Props) {
     const [pageList, setPageList] = useState<string[]>(pageArr || [])
 
+    function handleAddNewPage() {
+        const newPageId = (pageList.length + 1).toString()
+        setPageList([...pageList, newPageId])
 
+    }
     return (
         <div
             id="page-selection-area"
@@ -35,6 +39,7 @@ export default function PageSelectionArea({ pageArr }: Props) {
                         hover:bg-purple-300
                         cursor-pointer
                         "
+                onClick={handleAddNewPage}
             >
                 Add A New Page
             </div>
