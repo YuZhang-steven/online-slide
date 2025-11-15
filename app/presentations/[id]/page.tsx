@@ -1,7 +1,12 @@
-import React from 'react'
 
-export default function EditorPage() {
-    return (
-        <div>EditorPage</div>
-    )
+
+export default async function EditorPage({
+    params,
+}: {
+    params: Promise<{ id: string }>
+}) {
+    const { id } = await params
+
+
+    return <div>EditorPage (ID: {id})</div>
 }

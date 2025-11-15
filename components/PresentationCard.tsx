@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { Card, CardFooter, CardHeader, CardTitle } from "./ui/card";
 
 type Props = {
@@ -10,19 +11,18 @@ type Props = {
 
 export default function PresentationCard({ id, title, date }: Props) {
 
-    function handleClick(e: React.MouseEvent<HTMLDivElement>) {
-        e.preventDefault();
-        //navigate to presentation page
-        console.log(`Navigating to presentation with id: ${id}`);
-    }
+    // function handleClick(e: React.MouseEvent<HTMLDivElement>) {
+    //     e.preventDefault();
+    //     //navigate to presentation page
+    //     console.log(`Navigating to presentation with id: ${id}`);
+    // }
     return (
-        <div
-            className="cursor-pointer 
-            hover:scale-102
-            transition-transform
-            duration-200
-            "
-            onClick={handleClick}
+        <Link
+            href={`/presentations/${id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cursor-pointer over:scale-102
+             transition-transform duration-200"
         >
             <Card>
                 <CardHeader>
@@ -35,6 +35,16 @@ export default function PresentationCard({ id, title, date }: Props) {
                     <p>{date}</p>
                 </CardFooter>
             </Card>
-        </div>
+        </Link>
+        // <div
+        //     className="cursor-pointer 
+        //     hover:scale-102
+        //     transition-transform
+        //     duration-200
+        //     "
+        //     onClick={handleClick}
+        // >
+
+        // </div>
     )
 }
