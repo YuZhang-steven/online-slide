@@ -1,14 +1,10 @@
 import CreateNewPresentation from "@/components/CreateNewPresentation";
 import { Presentation, PresentationsSchema } from "../lib/zod/schemas";
 import PresentationCard from "@/components/PresentationCard";
+import fetchingAllPresentations from "../action/fetchingAllPresentations";
 
 export default async function PresetationPage() {
-    const res = await fetch(`${process.env.BASE_URL}/api/presentations`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+    const res = await fetchingAllPresentations()
     if (!res.ok) {
         throw new Error('Failed to fetch presentations');
     }
@@ -17,7 +13,6 @@ export default async function PresetationPage() {
 
     //validte with Zod
     const data: Presentation[] = PresentationsSchema.parse(json);
-    console.log(data);
 
 
 
