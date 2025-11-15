@@ -1,18 +1,24 @@
+"use client"
+import { Page } from "@prisma/client";
 import PageSelectionArea from "./PageSelectionArea";
+import fetchedPagesProcessing from "@/lib/dataProcessing/fetchedPagesProcessing";
+type Props = {
+    children?: React.ReactNode
+    id: string
+    fetchedPages: Page[]
+}
 
 
 export default function EditorFrame(
-    { children,
-        id
-
-    }: {
-        children?: React.ReactNode
-        id: string
-    }
+    { children, id, fetchedPages }: Props
 ) {
+
+
+    const pageArr = fetchedPagesProcessing({ fetchedPages });
+
+
+
     return (
-
-
         <div
             id="editor-frame"
             className="fixed h-full w-full bg-amber-300
@@ -25,7 +31,7 @@ export default function EditorFrame(
             >
                 <PageSelectionArea
                     presentationId={id}
-
+                    pageArr={pageArr}
                 />
             </div>
             <div

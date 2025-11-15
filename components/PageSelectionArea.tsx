@@ -2,7 +2,7 @@
 
 import addNewPages from "@/app/action/addNewPages"
 import { useState } from "react"
-import { log } from "util"
+
 type Props = {
     presentationId: string
     pageArr?: string[]
