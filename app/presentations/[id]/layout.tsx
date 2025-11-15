@@ -7,7 +7,9 @@ export default function PresentationLayout({
     children: React.ReactNode;
 }>) {
     return <>
-        <EditorFrame />
-        {children}
+        <EditorFrame>
+            {children}
+        </EditorFrame>
+
     </>;
 }
