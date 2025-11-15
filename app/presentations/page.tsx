@@ -1,4 +1,4 @@
-import CreateNewPresentation from "@/component/CreateNewPresentation";
+import CreateNewPresentation from "@/components/CreateNewPresentation";
 import { Presentation, PresentationsSchema } from "../lib/zod/schemas";
 
 export default async function PresetationPage() {
