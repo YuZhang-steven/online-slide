@@ -1,3 +1,4 @@
+import PageSelectionArea from "./PageSelectionArea";
 
 
 export default function EditorFrame(
@@ -15,6 +16,7 @@ export default function EditorFrame(
                 id="editor-sidebar"
                 className="h-full w-64 bg-emerald-500"
             >
+                <PageSelectionArea />
             </div>
             <div
                 id="editor-content-area"

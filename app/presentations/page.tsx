@@ -14,12 +14,6 @@ export default async function PresetationPage() {
     //validte with Zod
     const data: Presentation[] = PresentationsSchema.parse(json);
 
-
-
-
-
-
-
     return (
         <div>
             <div
