@@ -1,5 +1,6 @@
 import CreateNewPresentation from "@/components/CreateNewPresentation";
 import { Presentation, PresentationsSchema } from "../lib/zod/schemas";
+import PresentationCard from "@/components/PresentationCard";
 
 export default async function PresetationPage() {
     const res = await fetch(`${process.env.BASE_URL}/api/presentations`, {
@@ -26,6 +27,15 @@ export default async function PresetationPage() {
 
     return (
         <div>
+            {
+                data.map((presentation) => (
+                    <PresentationCard
+                        title={presentation.title}
+                        date={presentation.updatedAt}
+                    />
+
+                ))
+            }
 
             <div>Presentations Loaded: {data.length}</div>
             <CreateNewPresentation />
