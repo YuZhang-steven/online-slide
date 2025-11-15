@@ -27,15 +27,21 @@ export default async function PresetationPage() {
 
     return (
         <div>
-            {
-                data.map((presentation) => (
-                    <PresentationCard
-                        title={presentation.title}
-                        date={presentation.updatedAt}
-                    />
+            <div
+                id="presentations-grid"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4"
+            >
+                {
+                    data.map((presentation) => (
+                        <PresentationCard
+                            title={presentation.title}
+                            date={presentation.updatedAt}
+                        />
 
-                ))
-            }
+                    ))
+                }
+            </div>
+
 
             <div>Presentations Loaded: {data.length}</div>
             <CreateNewPresentation />

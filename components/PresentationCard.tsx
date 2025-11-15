@@ -7,17 +7,27 @@ type Props = {
 }
 
 export default function PresentationCard({ title, date }: Props) {
+
+
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>{title}</CardTitle>
-            </CardHeader>
-            <div
-                className="h-40 bg-muted"
-            />
-            <CardFooter>
-                <p>{date}</p>
-            </CardFooter>
-        </Card>
+        <div
+            className="cursor-pointer 
+            hover:scale-102
+            transition-transform
+            duration-200
+            "
+        >
+            <Card>
+                <CardHeader>
+                    <CardTitle>{title}</CardTitle>
+                </CardHeader>
+                <div
+                    className="h-40 bg-muted"
+                />
+                <CardFooter>
+                    <p>{date}</p>
+                </CardFooter>
+            </Card>
+        </div>
     )
 }
