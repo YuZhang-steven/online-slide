@@ -1,3 +1,4 @@
+import { pageMap } from "@/components/globalState/pageMap"
 import { Page } from "@prisma/client"
 
 type Props = {
@@ -5,6 +6,8 @@ type Props = {
 }
 
 export default function fetchedPagesProcessing({ fetchedPages }: Props) {
+
+
     const res: string[] = []
 
     //sort pages by order
@@ -13,6 +16,8 @@ export default function fetchedPagesProcessing({ fetchedPages }: Props) {
     //creating an array of page ids
     fetchedPages.forEach(page => {
         res.push(page.id)
+        //update the pageMap
+        pageMap.set(page.id, new Set<string>())
     })
 
 
