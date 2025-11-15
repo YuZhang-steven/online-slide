@@ -1,13 +1,16 @@
 import EditorFrame from "@/components/EditorFrame";
 
 
-export default function PresentationLayout({
+export default async function PresentationLayout({
     children,
+    params
 }: Readonly<{
     children: React.ReactNode;
+    params: { id: string };
 }>) {
+    const { id } = await params;
     return <>
-        <EditorFrame>
+        <EditorFrame id={id}>
             {children}
         </EditorFrame>
 

@@ -2,9 +2,16 @@ import PageSelectionArea from "./PageSelectionArea";
 
 
 export default function EditorFrame(
-    { children }: { children?: React.ReactNode }
+    { children,
+        id
+
+    }: {
+        children?: React.ReactNode
+        id: string
+    }
 ) {
     return (
+
 
         <div
             id="editor-frame"
@@ -16,7 +23,10 @@ export default function EditorFrame(
                 id="editor-sidebar"
                 className="h-full w-64 bg-emerald-500"
             >
-                <PageSelectionArea />
+                <PageSelectionArea
+                    presentationId={id}
+
+                />
             </div>
             <div
                 id="editor-content-area"

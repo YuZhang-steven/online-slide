@@ -1,14 +1,23 @@
 "use client"
 
+import addNewPages from "@/app/action/addNewPages"
 import { useState } from "react"
+import { log } from "util"
 type Props = {
+    presentationId: string
     pageArr?: string[]
 }
 
-export default function PageSelectionArea({ pageArr }: Props) {
+export default function PageSelectionArea({ pageArr, presentationId }: Props) {
     const [pageList, setPageList] = useState<string[]>(pageArr || [])
 
-    function handleAddNewPage() {
+    async function handleAddNewPage() {
+        const res = await addNewPages({ presentationId })
+        if (res.status !== '201') {
+            console.error('Failed to add new page')
+            return
+        }
+        console.log('New page added:', res.data);
         const newPageId = (pageList.length + 1).toString()
         setPageList([...pageList, newPageId])
 
