@@ -2,6 +2,7 @@ import { Image, Transformer } from "react-konva";
 import { contentsMap } from "../globalState/contentsMap";
 import { useEffect, useRef } from "react";
 import Konva from "konva";
+
 type Props = {
     id: string
 }
@@ -11,7 +12,6 @@ export default function ImageContent({ id }: Props) {
     const transformerRef = useRef<Konva.Transformer | null>(null);
 
     //get image content from contentsMap
-    // if no image content, render empty div
     const content = contentsMap.get(id)
 
     //handle transformer(resize and rotate) when content changes
@@ -50,7 +50,7 @@ export default function ImageContent({ id }: Props) {
 
     }
 
-
+    // if no image content, render empty div
     if (!content || !content.img) return null
     return (
         <>
@@ -77,7 +77,6 @@ export default function ImageContent({ id }: Props) {
                     }
                     return newBox;
                 }}
-
             />
         </>
 
