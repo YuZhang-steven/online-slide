@@ -4,6 +4,9 @@ type CurrentPageContentsState = {
     textContents: string[];
     imageContents: string[];
     videoContents: string[];
+    setTextContents: (texts: string[]) => void;
+    setImageContents: (images: string[]) => void;
+    setVideoContents: (videos: string[]) => void;
 
 }
 
