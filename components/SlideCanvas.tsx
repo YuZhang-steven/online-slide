@@ -1,12 +1,26 @@
 "use client"
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Layer, Stage } from "react-konva";
 import RenderingTextContent from "./renderingElementsType/RenderingTextContent";
 import RenderingImageContent from "./renderingElementsType/RenderingImageContent";
 import RenderingVideoContent from "./renderingElementsType/RenderingVideoContent";
+import Konva from "konva";
 
 export default function SlideCanvas() {
+    const layerRef = useRef(null)
+
     const stageRef = useRef(null)
+
+    useEffect(() => {
+        const anim = new Konva.Animation(() => { }, layerRef.current)
+        anim.start()
+
+        return () => {
+            anim.stop()
+        }
+    }, [layerRef.current])
+
+
     return (
         <div
             id="slide-canvas-area"
@@ -24,7 +38,7 @@ export default function SlideCanvas() {
                 }}
             >
                 <Stage width={1024} height={798} ref={stageRef}>
-                    <Layer>
+                    <Layer ref={layerRef}>
 
                         <RenderingTextContent />
                         <RenderingImageContent />

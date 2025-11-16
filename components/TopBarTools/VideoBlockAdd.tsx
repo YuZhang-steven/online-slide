@@ -26,6 +26,7 @@ export default function VideoBlockAdd() {
             video.autoplay = true;
             video.loop = true;
 
+
             //create new content and save it in the contesmap when video metadata is loaded
             video.onloadeddata = () => {
                 const newItem: ContentLocal = {
@@ -40,6 +41,7 @@ export default function VideoBlockAdd() {
                     text: null,
                     video: video
                 }
+                video.play().catch(err => console.log("Autoplay block:", err));
                 contentsMap.set(newItem.id, newItem);
 
                 const currentContents = useCurrentPageContents.getState().videoContents;

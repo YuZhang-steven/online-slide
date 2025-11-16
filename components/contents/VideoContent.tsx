@@ -9,7 +9,9 @@ type Props = {
 export default function VideoContent({ id }: Props) {
 
     const content = contentsMap.get(id)
-    if (!content || !content.img) return null
+    if (!content || !content.video) return null
+    console.log("Render Video Content", content);
+
     return (
         <Image
             key={content.id}
@@ -17,7 +19,7 @@ export default function VideoContent({ id }: Props) {
             y={content.y}
             width={content.width}
             height={content.height}
-            image={content.img}
+            image={content.video}
             draggable
 
         />
