@@ -5,11 +5,17 @@ import RenderingTextContent from "./renderingElementsType/RenderingTextContent";
 import RenderingImageContent from "./renderingElementsType/RenderingImageContent";
 import RenderingVideoContent from "./renderingElementsType/RenderingVideoContent";
 import Konva from "konva";
+import { useCurrentPageStore } from "./globalState/useCurrentPageStore";
 
 export default function SlideCanvas() {
     const layerRef = useRef(null)
     const stageRef = useRef(null)
+    const currentPageID = useCurrentPageStore((state) => state.currentPageID);
 
+    useEffect(() => {
+        console.log("Current Page ID changed to: ", currentPageID);
+
+    }, [currentPageID])
     useEffect(() => {
         const anim = new Konva.Animation(() => { }, layerRef.current)
         anim.start()

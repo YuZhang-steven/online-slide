@@ -1,5 +1,6 @@
 "use client";
 
+import { useCurrentPageStore } from "../globalState/useCurrentPageStore";
 import { Card, CardFooter } from "./card"
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -13,12 +14,15 @@ export default function PageCard({
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams()
+    const setCurrentPageID = useCurrentPageStore.getState().setCurrentPageID;
     function handleClick() {
         console.log('Page card clicked:', pageId);
         //get current search params
         const newSearchParams = new URLSearchParams(
             searchParams.toString()
         );
+        // Update the current page ID in the global store
+        setCurrentPageID(pageId || "");
 
         // Set or update the "page" parameter
         newSearchParams.set("page", pageId || "");
