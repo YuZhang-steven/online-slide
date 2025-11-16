@@ -1,7 +1,7 @@
 
 import { Text, Transformer } from 'react-konva'
 import { contentsMap } from '../globalState/contentsMap'
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Konva from 'konva';
 import useTransformationHandle from '@/lib/hooks/useTransformationHandle';
 
@@ -27,6 +27,82 @@ export default function TextContent({ id }: Props) {
         localStateSetter: setContent
     })
 
+    //handle text editing
+    function handleTextClick() {
+        setIsEditing(true);
+    }
+    useEffect(() => {
+        if (isEditing) {
+            createTextArea();
+
+        }
+    }, [isEditing]);
+
+    function createTextArea() {
+        const textNode = textRef.current;
+        if (!textNode) return;
+        //get current konva stage
+        const stage = textNode.getStage()
+        if (!stage) return;
+        //fincd the container of the stage
+        const container = stage.container();
+        //build a new html textarea element
+        const textarea = document.createElement('textarea');
+
+
+        container.appendChild(textarea);
+
+        textarea.value = textNode.text();
+        textarea.style.position = "absolute";
+        textarea.style.top = textNode.y() + "px";
+        textarea.style.left = textNode.x() + "px";
+        textarea.style.width = textNode.width() + "px";
+        textarea.style.height = textNode.height() + "px";
+        textarea.style.fontSize = textNode.fontSize() + "px";
+        textarea.style.border = "1px solid #222";
+        textarea.style.padding = "4px";
+        textarea.style.margin = "0";
+        textarea.style.background = "white";
+        textarea.style.zIndex = "10";
+        textarea.style.outline = "none";
+        textarea.style.resize = "none";
+
+        textarea.focus();
+
+        //Finish editing on blur or enter key
+        textarea.addEventListener('blur', () => {
+            finishEditing(textarea);
+        })
+        textarea.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                textarea.blur();
+            }
+        })
+    }
+
+    //save the textArea and update the content in original text
+    function finishEditing(textarea: HTMLTextAreaElement) {
+        //get updated text, create new content object
+        const newText = textarea.value;
+        if (content) {
+            const updated = {
+                ...content,
+                text: newText
+            }
+
+            //update local state and contentsMap
+            setContent(updated);
+            contentsMap.set(id, updated);
+
+            //change editing state back
+            setIsEditing(false);
+
+            //remove textarea from dom
+            textarea.remove();
+        }
+    }
+
     //render empty div if no text content
     if (!content) return null
 
@@ -44,6 +120,8 @@ export default function TextContent({ id }: Props) {
                 fill="black"
                 draggable
                 onTransformEnd={handleTransformEnd}
+                onClick={handleTextClick}
+                onTap={handleTextClick}
             />
             <Transformer
                 ref={transformerRef}
