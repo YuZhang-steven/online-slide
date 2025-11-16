@@ -1,8 +1,8 @@
 
 import { Text } from 'react-konva'
-import { useCurrentPageContents } from './globalState/useCurrentPageContents'
+import { useCurrentPageContents } from '../globalState/useCurrentPageContents'
 import { useEffect, useState } from 'react'
-import { contentsMap } from './globalState/contentsMap'
+import { contentsMap } from '../globalState/contentsMap'
 import { Content } from '@prisma/client'
 
 export default function RenderingTextContent() {

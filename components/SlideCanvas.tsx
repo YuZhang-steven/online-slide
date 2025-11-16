@@ -1,7 +1,8 @@
 "use client"
 import { useRef } from "react";
-import { Layer, Stage, Text } from "react-konva";
-import RenderingTextContent from "./RenderingTextContent";
+import { Layer, Stage } from "react-konva";
+import RenderingTextContent from "./RenderingElements/RenderingTextContent";
+import RenderingImageContent from "./RenderingElements/RenderingImageContent";
 
 export default function SlideCanvas() {
     const stageRef = useRef(null)
@@ -25,6 +26,7 @@ export default function SlideCanvas() {
                     <Layer>
 
                         <RenderingTextContent />
+                        <RenderingImageContent />
 
                     </Layer>
 
