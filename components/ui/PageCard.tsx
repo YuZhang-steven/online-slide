@@ -3,11 +3,15 @@ import { Card, CardFooter } from "./card"
 type Props = {
     pageId?: string
     footer?: string | number
-    handleClick?: () => void
+
 }
 
 export default function PageCard({
-    pageId, footer, handleClick = () => { } }: Props) {
+    pageId, footer, }: Props) {
+    function handleClick() {
+        console.log('Page card clicked:', pageId);
+        // You can add navigation or other logic here
+    }
     return (
         <Card
             className="cursor-pointer 
