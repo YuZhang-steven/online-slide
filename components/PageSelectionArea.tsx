@@ -3,6 +3,7 @@
 import addNewPages from "@/app/action/addNewPages"
 import { useState } from "react"
 import PageCard from "./ui/PageCard"
+import AddNewPageCard from "./ui/AddNewPageCard"
 
 type Props = {
     presentationId: string
@@ -23,6 +24,9 @@ export default function PageSelectionArea({ pageArr, presentationId }: Props) {
         setPageList([...pageList, newPageId])
 
     }
+    function handlePageLinkClick(pageId: string) {
+
+    }
     return (
         <div
             id="page-selection-area"
@@ -39,10 +43,11 @@ export default function PageSelectionArea({ pageArr, presentationId }: Props) {
                     />
                 ))
             }
-            <PageCard
-                pageId="new-page"
-                footer="+ Add New Page"
-                handleClick={handleAddNewPage}
+            <AddNewPageCard
+                presentationId={presentationId}
+                pageList={pageList}
+                setPageList={setPageList}
+
             />
         </div>
     )
