@@ -1,16 +1,29 @@
+"use client";
+
 import { Card, CardFooter } from "./card"
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type Props = {
     pageId?: string
     footer?: string | number
-
 }
 
 export default function PageCard({
     pageId, footer, }: Props) {
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams()
     function handleClick() {
         console.log('Page card clicked:', pageId);
-        // You can add navigation or other logic here
+        //get current search params
+        const newSearchParams = new URLSearchParams(
+            searchParams.toString()
+        );
+
+        // Set or update the "page" parameter
+        newSearchParams.set("page", pageId || "");
+        const newUrl = `${pathname}?${newSearchParams.toString()}`;
+        router.push(newUrl);
     }
     return (
         <Card
