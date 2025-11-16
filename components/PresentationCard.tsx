@@ -11,20 +11,19 @@ type Props = {
 
 export default function PresentationCard({ id, title, date }: Props) {
 
-    // function handleClick(e: React.MouseEvent<HTMLDivElement>) {
-    //     e.preventDefault();
-    //     //navigate to presentation page
-    //     console.log(`Navigating to presentation with id: ${id}`);
-    // }
     return (
         <Link
             href={`/presentations/${id}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="cursor-pointer over:scale-102
-             transition-transform duration-200"
+            className="block"
+
         >
-            <Card>
+            <Card
+                className="cursor-pointer hover:scale-110
+             transition-transform duration-200
+             "
+            >
                 <CardHeader>
                     <CardTitle>{title}</CardTitle>
                 </CardHeader>
@@ -36,15 +35,5 @@ export default function PresentationCard({ id, title, date }: Props) {
                 </CardFooter>
             </Card>
         </Link>
-        // <div
-        //     className="cursor-pointer 
-        //     hover:scale-102
-        //     transition-transform
-        //     duration-200
-        //     "
-        //     onClick={handleClick}
-        // >
-
-        // </div>
     )
 }

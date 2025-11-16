@@ -2,6 +2,7 @@
 import { Page } from "@prisma/client";
 import PageSelectionArea from "./PageSelectionArea";
 import fetchedPagesProcessing from "@/lib/dataProcessing/fetchedPagesProcessing";
+import TopToolBar from "./TopToolBar";
 type Props = {
     children?: React.ReactNode
     id: string
@@ -42,6 +43,7 @@ export default function EditorFrame(
                     id="editor-toolbar-top"
                     className="h-20 w-full bg-blue-500"
                 >
+                    <TopToolBar />
 
                 </div>
                 <div
