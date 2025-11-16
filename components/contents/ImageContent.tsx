@@ -1,7 +1,8 @@
 import { Image, Transformer } from "react-konva";
 import { contentsMap } from "../globalState/contentsMap";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Konva from "konva";
+import useTransformationHandle from "@/lib/hooks/useTransformationHandle";
 
 type Props = {
     id: string
@@ -14,50 +15,15 @@ export default function ImageContent({ id }: Props) {
     //get image content from contentsMap
     const [content, setContent] = useState(contentsMap.get(id));
 
-
     //handle transformer(resize and rotate) when content changes
-    useEffect(() => {
-        if (transformerRef.current && imageRef.current) {
-            transformerRef.current.nodes([imageRef.current]);
-            transformerRef.current.getLayer()?.batchDraw();
-        }
-    }, [id, content])
+    const { handleTransformEnd } = useTransformationHandle({
+        id,
+        content,
+        contentRef: imageRef,
+        transformerRef,
+        localStateSetter: setContent
+    })
 
-    //update the contentsMap when transform ends
-    function handleTransformEnd(e: Konva.KonvaEventObject<Event>) {
-
-        const node = imageRef.current;
-
-        if (node && content) {
-            // Update your own state/map
-            const newWidth = node.width() * node.scaleX();
-            const newHeight = node.height() * node.scaleY();
-
-            // reset the scale to 1
-            node.scaleX(1);
-            node.scaleY(1);
-
-            //update local state
-            setContent({
-                ...content,
-                x: node.x(),
-                y: node.y(),
-                width: newWidth,
-                height: newHeight,
-                rotation: node.rotation(),
-            });
-
-            // update the content in contentsMap
-            contentsMap.set(id, {
-                ...content,
-                x: node.x(),
-                y: node.y(),
-                width: newWidth,
-                height: newHeight,
-                rotation: node.rotation(),
-            });
-        }
-    }
 
     // if no image content, render empty div
     if (!content || !content.img) return null

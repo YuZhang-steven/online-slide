@@ -1,8 +1,9 @@
 
 import { Text, Transformer } from 'react-konva'
 import { contentsMap } from '../globalState/contentsMap'
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Konva from 'konva';
+import useTransformationHandle from '@/lib/hooks/useTransformationHandle';
 
 type Props = {
     id: string
@@ -14,50 +15,17 @@ export default function TextContent({ id }: Props) {
 
     //get text content from contentsMap
     const [content, setContent] = useState(contentsMap.get(id));
+    //state to track if text is being typed
+    const [isEditing, setIsEditing] = useState(false);
 
     //handle transformer(resize and rotate) when content changes
-    useEffect(() => {
-        if (transformerRef.current && textRef.current) {
-            transformerRef.current.nodes([textRef.current]);
-            transformerRef.current.getLayer()?.batchDraw();
-        }
-    }, [id, content])
-
-    // update the contentsMap when transform ends
-    function handleTransformEnd(e: Konva.KonvaEventObject<Event>) {
-
-        const node = textRef.current;
-
-        if (node && content) {
-            // Update your own state/map
-            const newWidth = node.width() * node.scaleX();
-            const newHeight = node.height() * node.scaleY();
-
-            // reset the scale to 1
-            node.scaleX(1);
-            node.scaleY(1);
-
-            //update local state
-            setContent({
-                ...content,
-                x: node.x(),
-                y: node.y(),
-                width: newWidth,
-                height: newHeight,
-                rotation: node.rotation(),
-            });
-
-            // update the content in contentsMap
-            contentsMap.set(id, {
-                ...content,
-                x: node.x(),
-                y: node.y(),
-                width: newWidth,
-                height: newHeight,
-                rotation: node.rotation(),
-            });
-        }
-    }
+    const { handleTransformEnd } = useTransformationHandle({
+        id,
+        content,
+        contentRef: textRef,
+        transformerRef,
+        localStateSetter: setContent
+    })
 
     //render empty div if no text content
     if (!content) return null
