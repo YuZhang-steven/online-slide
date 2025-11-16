@@ -1,3 +1,4 @@
+import SlideCanvas from "@/components/SlideCanvas"
 
 
 export default async function EditorPage({
@@ -8,5 +9,7 @@ export default async function EditorPage({
     const { id } = await params
 
 
-    return <div>EditorPage (ID: {id})</div>
+    return <div>
+        <SlideCanvas />
+    </div>
 }
