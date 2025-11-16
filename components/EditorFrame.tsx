@@ -44,7 +44,9 @@ export default function EditorFrame(
                 >
 
                 </div>
-                <div>{children}</div>
+                <div
+                    className="flex-1 flex"
+                >{children}</div>
 
             </div>
 
