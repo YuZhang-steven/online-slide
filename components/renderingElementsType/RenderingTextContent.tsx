@@ -1,10 +1,11 @@
 
-import { useCurrentPageContents } from '../globalState/useCurrentPageContents'
+
 import TextContent from '../contents/TextContent'
+import { useCurrentPageContentStore } from '../globalState/useCurrentPageContentStore'
 
 
 export default function RenderingTextContent() {
-    const textContentIDs = useCurrentPageContents((state) => state.textContents)
+    const textContentIDs = useCurrentPageContentStore((state) => state.textContents)
 
     return (
         <>

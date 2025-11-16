@@ -1,13 +1,13 @@
 "use client"
-import { Content, ContentType } from '@prisma/client'
+import { ContentType } from '@prisma/client'
 import ToolButton from '../ui/ToolButton'
 import { TextCursorInputIcon } from 'lucide-react'
 import { ContentLocal, contentsMap } from '../globalState/contentsMap'
-import { useCurrentPageContents } from '../globalState/useCurrentPageContents'
+import { useCurrentPageContentStore } from '../globalState/useCurrentPageContentStore'
 
 export default function TextBlockAdd() {
 
-    const setTextContents = useCurrentPageContents.getState().setTextContents
+    const setTextContents = useCurrentPageContentStore.getState().setTextContents
 
     function handleClick() {
         console.log("Add Text Block")
@@ -27,7 +27,7 @@ export default function TextBlockAdd() {
         // Add the new text content to the contentsMap
         contentsMap.set(randomID, newTextContent)
         // Update the current page contents state
-        const currentContents = useCurrentPageContents.getState().textContents
+        const currentContents = useCurrentPageContentStore.getState().textContents
         setTextContents([...currentContents, randomID])
     }
 

@@ -10,7 +10,7 @@ type CurrentPageContentsState = {
 
 }
 
-export const useCurrentPageContents = create<CurrentPageContentsState>((set) => ({
+export const useCurrentPageContentStore = create<CurrentPageContentsState>((set) => ({
     textContents: [],
     imageContents: [],
     videoContents: [],

@@ -1,8 +1,9 @@
 import ImageContent from "../contents/ImageContent"
-import { useCurrentPageContents } from "../globalState/useCurrentPageContents"
+import { useCurrentPageContentStore } from "../globalState/useCurrentPageContentStore"
+
 
 export default function RenderingImageContent() {
-    const imageContentIDs = useCurrentPageContents((state) => state.imageContents)
+    const imageContentIDs = useCurrentPageContentStore((state) => state.imageContents)
 
     return (
         <>

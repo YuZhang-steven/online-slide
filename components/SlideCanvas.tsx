@@ -8,7 +8,6 @@ import Konva from "konva";
 
 export default function SlideCanvas() {
     const layerRef = useRef(null)
-
     const stageRef = useRef(null)
 
     useEffect(() => {

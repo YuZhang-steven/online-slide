@@ -1,9 +1,10 @@
 import VideoContent from "../contents/VideoContent"
-import { useCurrentPageContents } from "../globalState/useCurrentPageContents"
+import { useCurrentPageContentStore } from "../globalState/useCurrentPageContentStore";
+
 
 
 export default function RenderingVideoContent() {
-    const videoContentIDs = useCurrentPageContents((state) => state.videoContents)
+    const videoContentIDs = useCurrentPageContentStore((state) => state.videoContents)
     console.log("Rendering Video Contents", videoContentIDs);
 
     return (

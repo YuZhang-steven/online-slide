@@ -2,11 +2,12 @@ import { Image } from "lucide-react";
 import ToolButton from "../ui/ToolButton";
 import { ContentLocal, contentsMap } from "../globalState/contentsMap";
 import { ContentType } from "@prisma/client";
-import { useCurrentPageContents } from "../globalState/useCurrentPageContents";
+import { useCurrentPageContentStore } from "../globalState/useCurrentPageContentStore";
+
 
 
 export default function ImageBlockAdd() {
-    const setImageContents = useCurrentPageContents.getState().setImageContents;
+    const setImageContents = useCurrentPageContentStore.getState().setImageContents;
 
     function handleClick() {
         const input = document.createElement('input');
@@ -35,7 +36,7 @@ export default function ImageBlockAdd() {
                         img: img
                     }
                     contentsMap.set(newItem.id, newItem);
-                    const currentContents = useCurrentPageContents.getState().imageContents;
+                    const currentContents = useCurrentPageContentStore.getState().imageContents;
                     setImageContents([...currentContents, newItem.id]);
                 }
             };

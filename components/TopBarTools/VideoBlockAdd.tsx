@@ -1,12 +1,12 @@
 import { Clapperboard } from "lucide-react";
-import { useCurrentPageContents } from "../globalState/useCurrentPageContents";
 import ToolButton from "../ui/ToolButton";
 import { ContentType } from "@prisma/client";
 import { ContentLocal, contentsMap } from "../globalState/contentsMap";
+import { useCurrentPageContentStore } from "../globalState/useCurrentPageContentStore";
 
 
 export default function VideoBlockAdd() {
-    const setVideoContents = useCurrentPageContents.getState().setVideoContents;
+    const setVideoContents = useCurrentPageContentStore.getState().setVideoContents;
 
     function handleClick() {
         const input = document.createElement('input');
@@ -45,7 +45,7 @@ export default function VideoBlockAdd() {
                 video.play().catch(err => console.log("Autoplay block:", err));
                 contentsMap.set(newItem.id, newItem);
 
-                const currentContents = useCurrentPageContents.getState().videoContents;
+                const currentContents = useCurrentPageContentStore.getState().videoContents;
                 setVideoContents([...currentContents, newItem.id]);
             }
 
