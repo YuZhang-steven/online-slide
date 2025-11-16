@@ -36,7 +36,7 @@ export default function EditorFrame(
             </div>
             <div
                 id="editor-content-area"
-                className="flex-1 flex flex-col"
+                className="flex-1 grid grid-rows-[auto_1fr] "
             >
                 <div
                     id="editor-toolbar-top"
@@ -45,7 +45,7 @@ export default function EditorFrame(
 
                 </div>
                 <div
-                    className="flex-1 flex"
+                    className=" bg-red-500 border-4 border-black overflow-auto"
                 >{children}</div>
 
             </div>

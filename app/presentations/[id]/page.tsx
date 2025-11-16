@@ -9,7 +9,7 @@ export default async function EditorPage({
     const { id } = await params
 
 
-    return <div className="h-full w-full ">
+    return <div className="flex-1 flex ">
         <SlideCanvas />
     </div>
 }

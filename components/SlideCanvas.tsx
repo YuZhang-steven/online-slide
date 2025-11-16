@@ -8,20 +8,21 @@ export default function SlideCanvas() {
         <div
             id="slide-canvas-area"
             className="flex justify-center items-center 
-            w-full h-full bg-gray-100"
+            w-full h-full"
         >
             <div
                 id="slide-canva"
-
                 style={{
-                    width: "900px",
-                    height: "600px",
+                    width: "1024px",
+                    height: "798px",
                     overflow: "hidden",
                     border: "1px solid #ccc",
                     backgroundColor: "#fff",
                 }}
             >
-                <Stage width={900} height={600} />
+                <Stage width={1024} height={798}>
+
+                </Stage>
             </div>
         </div>
 

@@ -18,10 +18,10 @@ export default async function PresentationLayout({
     if (fetchPagesRes.status === '200' && fetchPagesRes.data) {
         presentationPages = fetchPagesRes.data;
     }
-    return <>
+    return <div className="">
         <EditorFrame id={id} fetchedPages={presentationPages}>
             {children}
         </EditorFrame>
 
-    </>;
+    </div>;
 }
