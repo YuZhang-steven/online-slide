@@ -2,6 +2,7 @@
 
 import addNewPages from "@/app/action/addNewPages"
 import { useState } from "react"
+import PageCard from "./ui/PageCard"
 
 type Props = {
     presentationId: string
@@ -31,27 +32,18 @@ export default function PageSelectionArea({ pageArr, presentationId }: Props) {
         >
             {
                 pageList.map((pageId, index) => (
-                    <div
-                        key={index}
-                        className="p-4 m-2 bg-purple-200 rounded
-                        hover:bg-purple-300
-                        cursor-pointer
-                        "
-                    >
-                        Page {pageId}
-                    </div>
+                    <PageCard
+                        key={pageId}
+                        pageId={pageId}
+                        footer={index + 1}
+                    />
                 ))
             }
-            <div
-                key={"add new page"}
-                className="p-4 m-2 bg-purple-200 rounded
-                        hover:bg-purple-300
-                        cursor-pointer
-                        "
-                onClick={handleAddNewPage}
-            >
-                Add A New Page
-            </div>
+            <PageCard
+                pageId="new-page"
+                footer="+ Add New Page"
+                handleClick={handleAddNewPage}
+            />
         </div>
     )
 }
