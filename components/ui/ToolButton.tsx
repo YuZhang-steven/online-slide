@@ -1,6 +1,9 @@
 import React from 'react'
-
-export default function ToolButton({ children }: { children?: React.ReactNode }) {
+type Props = {
+    children?: React.ReactNode
+    onClick?: () => void
+}
+export default function ToolButton({ children, onClick = () => { } }: Props) {
     return (
         <div
             className="
@@ -12,6 +15,7 @@ export default function ToolButton({ children }: { children?: React.ReactNode })
       transition-colors duration-300
 
     "
+            onClick={onClick}
         >
             {children}
         </div>
