@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { contentsMap } from "../globalState/contentsMap"
 import { Image, Transformer } from "react-konva";
 import Konva from "konva";
@@ -14,7 +14,7 @@ export default function VideoContent({ id }: Props) {
 
     //get video content from contentsMap
     // if no image content, render empty div
-    const content = contentsMap.get(id)
+    const [content, setContent] = useState(contentsMap.get(id));
 
     //handle transformer(resize and rotate) when content changes
     useEffect(() => {
@@ -23,8 +23,43 @@ export default function VideoContent({ id }: Props) {
             transformerRef.current.getLayer()?.batchDraw();
         }
     }, [id, content])
+    //update the contentsMap when transform ends
+    function handleTransformEnd(e: Konva.KonvaEventObject<Event>) {
 
+        const node = videoRef.current;
 
+        if (node && content) {
+            // Update your own state/map
+            const newWidth = node.width() * node.scaleX();
+            const newHeight = node.height() * node.scaleY();
+
+            // reset the scale to 1
+            node.scaleX(1);
+            node.scaleY(1);
+
+            //update local state
+            setContent({
+                ...content,
+                x: node.x(),
+                y: node.y(),
+                width: newWidth,
+                height: newHeight,
+                rotation: node.rotation(),
+            });
+
+            // update the content in contentsMap
+            contentsMap.set(id, {
+                ...content,
+                x: node.x(),
+                y: node.y(),
+                width: newWidth,
+                height: newHeight,
+                rotation: node.rotation(),
+            });
+        }
+    }
+
+    // if no video content, render empty div
     if (!content || !content.video) return null
 
     return (
@@ -38,6 +73,7 @@ export default function VideoContent({ id }: Props) {
                 height={content.height}
                 image={content.video}
                 draggable
+                onTransformEnd={handleTransformEnd}
             />
             <Transformer
                 ref={transformerRef}

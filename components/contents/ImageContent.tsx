@@ -1,6 +1,6 @@
 import { Image, Transformer } from "react-konva";
 import { contentsMap } from "../globalState/contentsMap";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Konva from "konva";
 
 type Props = {
@@ -12,7 +12,8 @@ export default function ImageContent({ id }: Props) {
     const transformerRef = useRef<Konva.Transformer | null>(null);
 
     //get image content from contentsMap
-    const content = contentsMap.get(id)
+    const [content, setContent] = useState(contentsMap.get(id));
+    // const content = contentsMap.get(id)
 
     //handle transformer(resize and rotate) when content changes
     useEffect(() => {
@@ -22,9 +23,9 @@ export default function ImageContent({ id }: Props) {
         }
     }, [id, content])
 
+    //update the contentsMap when transform ends
     function handleTransformEnd(e: Konva.KonvaEventObject<Event>) {
 
-        console.log("transform end", e);
         const node = imageRef.current;
 
         if (node && content) {
@@ -36,6 +37,16 @@ export default function ImageContent({ id }: Props) {
             node.scaleX(1);
             node.scaleY(1);
 
+            //update local state
+            setContent({
+                ...content,
+                x: node.x(),
+                y: node.y(),
+                width: newWidth,
+                height: newHeight,
+                rotation: node.rotation(),
+            });
+
             // update the content in contentsMap
             contentsMap.set(id, {
                 ...content,
@@ -46,8 +57,6 @@ export default function ImageContent({ id }: Props) {
                 rotation: node.rotation(),
             });
         }
-
-
     }
 
     // if no image content, render empty div
