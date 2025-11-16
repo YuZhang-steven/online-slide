@@ -30,16 +30,17 @@ model Page {
 }
 
 model Content {
-  id     String      @id @default(cuid())
-  pageId String
-  page   Page        @relation(fields: [pageId], references: [id])
-  type   ContentType
-  x      Int
-  y      Int
-  width  Int
-  height Int
-  text   String?
-  url    String?
+  id       String      @id @default(cuid())
+  pageId   String
+  page     Page        @relation(fields: [pageId], references: [id])
+  type     ContentType
+  x        Int
+  y        Int
+  width    Int
+  height   Int
+  rotation Float       @default(0)
+  text     String?
+  url      String?
 }
 
 enum ContentType {

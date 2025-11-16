@@ -15,12 +15,22 @@ export default function ImageContent({ id }: Props) {
     const content = contentsMap.get(id)
     if (!content || !content.img) return null
 
+
+    //handle transformer(resize and rotate) when content changes
     useEffect(() => {
         if (transformerRef.current && imageRef.current) {
             transformerRef.current.nodes([imageRef.current]);
             transformerRef.current.getLayer()?.batchDraw();
         }
-    })
+    }, [id, content])
+
+    function handleTransformEnd(e: Konva.KonvaEventObject<Event>) {
+
+        console.log("transform end", e);
+
+
+    }
+
 
 
     return (
@@ -34,6 +44,7 @@ export default function ImageContent({ id }: Props) {
                 height={content.height}
                 image={content.img}
                 draggable
+                onTransformEnd={handleTransformEnd}
             />
 
             <Transformer
