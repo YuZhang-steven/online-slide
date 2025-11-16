@@ -22,7 +22,7 @@ export default function SlideCanvas() {
                     backgroundColor: "#fff",
                 }}
             >
-                <Stage width={1024} height={798}>
+                <Stage width={1024} height={798} ref={stageRef}>
                     <Layer>
 
                         <RenderingTextContent />
