@@ -41,7 +41,7 @@ export default function ImageBlockAdd() {
             reader.readAsDataURL(file);
         };
         input.click();
-        console.log("Add Image Block", contentsMap);
+
 
     }
 

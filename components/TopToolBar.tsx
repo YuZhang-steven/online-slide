@@ -1,8 +1,7 @@
 "use client"
-import { Clapperboard, Image, TextCursorInputIcon } from 'lucide-react'
-import ToolButton from './ui/ToolButton'
 import TextBlockAdd from './TopBarTools/TextBlockAdd'
 import ImageBlockAdd from './TopBarTools/ImageBlockAdd'
+import VideoBlockAdd from './TopBarTools/VideoBlockAdd'
 
 
 export default function TopToolBar() {
@@ -10,13 +9,7 @@ export default function TopToolBar() {
         <div className="flex">
             <TextBlockAdd />
             <ImageBlockAdd />
-            <ToolButton>
-                <Clapperboard
-                    className="text-black"
-                    size={30}
-                />
-            </ToolButton>
-
+            <VideoBlockAdd />
         </div>
     )
 }
