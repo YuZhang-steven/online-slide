@@ -13,8 +13,6 @@ export default function ImageContent({ id }: Props) {
     //get image content from contentsMap
     // if no image content, render empty div
     const content = contentsMap.get(id)
-    if (!content || !content.img) return null
-
 
     //handle transformer(resize and rotate) when content changes
     useEffect(() => {
@@ -27,12 +25,33 @@ export default function ImageContent({ id }: Props) {
     function handleTransformEnd(e: Konva.KonvaEventObject<Event>) {
 
         console.log("transform end", e);
+        const node = imageRef.current;
+
+        if (node && content) {
+            // Update your own state/map
+            const newWidth = node.width() * node.scaleX();
+            const newHeight = node.height() * node.scaleY();
+
+            // reset the scale to 1
+            node.scaleX(1);
+            node.scaleY(1);
+
+            // update the content in contentsMap
+            contentsMap.set(id, {
+                ...content,
+                x: node.x(),
+                y: node.y(),
+                width: newWidth,
+                height: newHeight,
+                rotation: node.rotation(),
+            });
+        }
 
 
     }
 
 
-
+    if (!content || !content.img) return null
     return (
         <>
             <Image
