@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Layer, Stage } from "react-konva";
 import RenderingTextContent from "./renderingElementsType/RenderingTextContent";
 import RenderingImageContent from "./renderingElementsType/RenderingImageContent";
+import RenderingVideoContent from "./renderingElementsType/RenderingVideoContent";
 
 export default function SlideCanvas() {
     const stageRef = useRef(null)
@@ -27,6 +28,7 @@ export default function SlideCanvas() {
 
                         <RenderingTextContent />
                         <RenderingImageContent />
+                        <RenderingVideoContent />
 
                     </Layer>
 
