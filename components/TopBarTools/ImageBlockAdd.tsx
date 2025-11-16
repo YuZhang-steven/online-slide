@@ -29,6 +29,7 @@ export default function ImageBlockAdd() {
                         y: 0,
                         width: img.width,
                         height: img.height,
+                        rotation: 0,
                         url: null,
                         text: null,
                         img: img

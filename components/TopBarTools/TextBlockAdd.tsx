@@ -20,6 +20,7 @@ export default function TextBlockAdd() {
             y: 0,
             width: 200,
             height: 50,
+            rotation: 0,
             text: "New Text",
             url: null
         }

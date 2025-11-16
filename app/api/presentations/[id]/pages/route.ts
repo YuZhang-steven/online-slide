@@ -1,14 +1,21 @@
 import addNewPages from "@/app/action/addNewPages";
+import { NextRequest, NextResponse } from "next/server";
+
 
 export async function POST(
-    request: Request,
-    { params }: { params: { id: string } }
+    request: NextRequest,
+    context: { params: Promise<{ id: string }> }
 ) {
-    const { id } = params;
+    try {
+        const { id } = await context.params;
+        const res = await addNewPages({ presentationId: id });
 
-    const res = await addNewPages({ presentationId: id });
-    if (!res || !res.data) {
-        return new Response('Failed to add new page', { status: 500 });
+        if (!res || !res.data) {
+            return new NextResponse("Failed to add new page", { status: 500 });
+        }
+
+        return new NextResponse(JSON.stringify(res.data), { status: 201 });
+    } catch (err) {
+        return new NextResponse("Internal Server Error", { status: 500 });
     }
-    return new Response(JSON.stringify(res.data), { status: 201 });
 }

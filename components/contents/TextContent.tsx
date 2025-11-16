@@ -88,10 +88,7 @@ export default function TextContent({ id }: Props) {
                     }
                     return newBox;
                 }}
-
-
             />
-
         </>
 
     )

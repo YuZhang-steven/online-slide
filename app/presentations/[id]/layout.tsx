@@ -8,7 +8,7 @@ export default async function PresentationLayout({
     params
 }: Readonly<{
     children: React.ReactNode;
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }>) {
     const { id } = await params;
     //fetch all presentation pages

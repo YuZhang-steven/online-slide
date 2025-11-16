@@ -35,6 +35,7 @@ export default function VideoBlockAdd() {
                     pageId: "0",
                     x: 0,
                     y: 0,
+                    rotation: 0,
                     width: video.videoWidth,
                     height: video.videoHeight,
                     url: url,
