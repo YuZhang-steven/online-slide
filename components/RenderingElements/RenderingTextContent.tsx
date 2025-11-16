@@ -2,15 +2,15 @@
 import { Text } from 'react-konva'
 import { useCurrentPageContents } from '../globalState/useCurrentPageContents'
 import { useEffect, useState } from 'react'
-import { contentsMap } from '../globalState/contentsMap'
-import { Content } from '@prisma/client'
+import { ContentLocal, contentsMap } from '../globalState/contentsMap'
+
 
 export default function RenderingTextContent() {
     const textContentIDs = useCurrentPageContents((state) => state.textContents)
-    const [textContents, setTextContents] = useState<Content[]>([])
+    const [textContents, setTextContents] = useState<ContentLocal[]>([])
     useEffect(() => {
 
-        const newContents: Content[] = []
+        const newContents: ContentLocal[] = []
         textContentIDs.forEach((contentId) => {
             const content = contentsMap.get(contentId)
             if (content) {

@@ -2,7 +2,7 @@
 import { Content, ContentType } from '@prisma/client'
 import ToolButton from '../ui/ToolButton'
 import { TextCursorInputIcon } from 'lucide-react'
-import { contentsMap } from '../globalState/contentsMap'
+import { ContentLocal, contentsMap } from '../globalState/contentsMap'
 import { useCurrentPageContents } from '../globalState/useCurrentPageContents'
 
 export default function TextBlockAdd() {
@@ -12,7 +12,7 @@ export default function TextBlockAdd() {
     function handleClick() {
         console.log("Add Text Block")
         const randomID = "New_Text_" + crypto.randomUUID()
-        const newTextContent: Content = {
+        const newTextContent: ContentLocal = {
             id: randomID,
             type: ContentType.TEXT,
             pageId: "0",

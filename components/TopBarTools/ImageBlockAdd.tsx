@@ -1,7 +1,12 @@
 import { Image } from "lucide-react";
 import ToolButton from "../ui/ToolButton";
+import { ContentLocal, contentsMap } from "../globalState/contentsMap";
+import { ContentType } from "@prisma/client";
+import { useCurrentPageContents } from "../globalState/useCurrentPageContents";
+
 
 export default function ImageBlockAdd() {
+    const setImageContents = useCurrentPageContents.getState().setImageContents;
 
     function handleClick() {
         const input = document.createElement('input');
@@ -14,13 +19,30 @@ export default function ImageBlockAdd() {
             const reader = new window.FileReader();
             reader.onload = () => {
                 const img = new window.Image();
-
-                console.log("Add Image Block", reader.result);
-                // Implementation for adding an image block goes here
+                img.src = reader.result as string;
+                img.onload = () => {
+                    const newItem: ContentLocal = {
+                        id: "New_Image_" + crypto.randomUUID(),
+                        type: ContentType.IMAGE,
+                        pageId: "0",
+                        x: 0,
+                        y: 0,
+                        width: img.width,
+                        height: img.height,
+                        url: null,
+                        text: null,
+                        img: img
+                    }
+                    contentsMap.set(newItem.id, newItem);
+                    const currentContents = useCurrentPageContents.getState().imageContents;
+                    setImageContents([...currentContents, newItem.id]);
+                }
             };
             reader.readAsDataURL(file);
         };
         input.click();
+        console.log("Add Image Block", contentsMap);
+
     }
 
     return (
