@@ -13,7 +13,7 @@ export default function ImageContent({ id }: Props) {
 
     //get image content from contentsMap
     const [content, setContent] = useState(contentsMap.get(id));
-    // const content = contentsMap.get(id)
+
 
     //handle transformer(resize and rotate) when content changes
     useEffect(() => {
