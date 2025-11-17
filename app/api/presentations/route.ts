@@ -1,4 +1,4 @@
-import { CreatePresentationSchema } from "@/app/lib/zod/schemas";
+import { CreatePresentationSchema } from "@/lib/zod/schemas";
 import { prisma } from "@/prisma/prisma";
 import z from "zod";
 
