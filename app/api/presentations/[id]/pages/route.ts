@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/prisma/prisma";
+import { UpdatePageSchema } from "@/lib/zod/schemas";
+import { ca } from "zod/locales";
+
 
 
 export async function POST(
@@ -86,5 +89,62 @@ export async function GET(
             headers: { 'Content-Type': 'application/json' }
         });
     }
+}
 
+export async function PUT(
+    request: NextRequest,
+) {
+    // get pageID from url query
+    const { searchParams } = new URL(request.url);
+    const pageID = searchParams.get("pageID");
+    if (!pageID) {
+        return new Response("Bad Request: Missing pageID", { status: 400 });
+    }
+
+    let data;
+    try {
+        const json = await request.json();
+        data = UpdatePageSchema.parse(json);
+    } catch (error) {
+        return new Response("Bad Request: Invalid data", { status: 400 });
+
+    }
+
+    const { order, contents, deletedContentIds } = data;
+
+    try {
+        await prisma.$transaction(async (tx) => {
+            //1.delete 
+            if (deletedContentIds && deletedContentIds.length > 0) {
+                await tx.content.deleteMany({
+                    where: {
+                        id: { in: deletedContentIds },
+                        pageId: pageID
+                    }
+                });
+            }
+            //2.upsert
+            for (const item of contents) {
+                if (item.id.startsWith("New_")) {
+                    await tx.content.create({
+                        data: { ...item, pageId: pageID }
+                    })
+                } else {
+                    await tx.content.update({
+                        where: { id: item.id },
+                        data: { ...item }
+                    })
+                }
+            }
+            //3.update page metadata
+            await tx.page.update({
+                where: { id: pageID },
+                data: { order }
+            });
+            return new Response("Page Updated", { status: 200 });
+        });
+    } catch (error) {
+        console.error("Error updating page:", error);
+        return new Response("Internal Server Error", { status: 500 });
+    }
 }
