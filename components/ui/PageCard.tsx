@@ -43,10 +43,10 @@ export default function PageCard({
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ pageId: id }),
+                body: JSON.stringify({ pageID: id }),
             });
             if (!res.ok) {
-                console.error('Failed to delete page');
+                console.error('Failed to delete page', await res.text());
                 return;
             }
             setPageList(pageList.filter((page) => page !== id));
