@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { contentsMap } from "../globalState/contentsMap"
 import { Image, Transformer } from "react-konva";
 import Konva from "konva";
@@ -14,8 +14,33 @@ export default function VideoContent({ id }: Props) {
     const transformerRef = useRef<Konva.Transformer | null>(null);
 
     //get video content from contentsMap
-    // if no image content, render empty div
     const [content, setContent] = useState(contentsMap.get(id));
+    const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(
+        content?.video || null
+    );
+
+    //initialize video
+    useEffect(() => {
+        if (content && content.url) {
+            const video = document.createElement('video');
+            video.src = content.url;
+            video.muted = true;
+            video.loop = true;
+            video.playsInline = true;
+            video.autoplay = true;
+
+            video.onloadedmetadata = () => {
+                setVideoElement(video);
+                content.video = video;
+                contentsMap.set(id, content);
+
+            }
+            video.load()
+        }
+    }, [content, id]);
+
+
+
 
     //handle transformer(resize and rotate) when content changes
     const { handleTransformEnd } = useTransformationHandle({
@@ -23,11 +48,12 @@ export default function VideoContent({ id }: Props) {
         content,
         contentRef: videoRef,
         transformerRef,
-        localStateSetter: setContent
+        localStateSetter: setContent,
+        loadTag: videoElement
     })
 
     // if no video content, render empty div
-    if (!content || !content.video) return null
+    if (!content || !videoElement) return null
 
     return (
         <>
@@ -38,7 +64,7 @@ export default function VideoContent({ id }: Props) {
                 y={content.y}
                 width={content.width}
                 height={content.height}
-                image={content.video}
+                image={videoElement}
                 draggable
                 onTransformEnd={handleTransformEnd}
             />

@@ -9,7 +9,7 @@ type Prop = {
     contentRef: React.RefObject<Konva.Node | null>,
     transformerRef: React.RefObject<Konva.Transformer | null>,
     localStateSetter: React.Dispatch<React.SetStateAction<ContentLocal | undefined>>,
-    loadTag?: HTMLImageElement | string
+    loadTag?: HTMLImageElement | string | HTMLVideoElement | null
 }
 
 export default function useTransformationHandle(
