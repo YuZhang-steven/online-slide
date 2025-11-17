@@ -26,7 +26,13 @@ export default function PageCard({
 
     //handle delete page
     async function handleDelete(e: React.MouseEvent, id: string | undefined) {
-        e.stopPropagation();
+        e.preventDefault();
+        e.stopPropagation()
+        if (pageList.length <= 1) {
+            alert("Cannot delete the last page of the presentation.");
+            return;
+        }
+
         if (!id) {
             console.error('No page ID provided for deletion.');
             return;
