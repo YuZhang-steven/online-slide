@@ -16,17 +16,18 @@ export default function ImageContent({ id }: Props) {
     //get image content from contentsMap
     const [content, setContent] = useState(contentsMap.get(id));
 
+
+    // Load image using the URL
+    const [img] = useImage(content?.url || "", "anonymous");
     //handle transformer(resize and rotate) when content changes
     const { handleTransformEnd } = useTransformationHandle({
         id,
         content,
         contentRef: imageRef,
         transformerRef,
-        localStateSetter: setContent
+        localStateSetter: setContent,
+        loadTag: img
     })
-
-    // Load image using the URL
-    const [img] = useImage(content?.url || "", "anonymous");
 
 
     // if no image content, render empty div
