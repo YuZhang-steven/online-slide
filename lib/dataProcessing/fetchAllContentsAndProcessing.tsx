@@ -20,22 +20,22 @@ export default async function fetchAllContentsAndProcessing({ pageID }: Props) {
 
 }
 
-function processContentItem(contentItem: Content) {
-    switch (contentItem.type) {
-        case ContentType.IMAGE:
-            const img = new Image();
-            img.src = contentItem.src;
-            return { ...contentItem, img };
-        case ContentType.VIDEO:
-            const video = document.createElement("video");
-            video.src = contentItem.src;
-            return { ...contentItem, video };
-        case ContentType.TEXT:
+// function processContentItem(contentItem: Content) {
+//     switch (contentItem.type) {
+//         case ContentType.IMAGE:
+//             const img = new Image();
+//             img.src = contentItem.src;
+//             return { ...contentItem, img };
+//         case ContentType.VIDEO:
+//             const video = document.createElement("video");
+//             video.src = contentItem.src;
+//             return { ...contentItem, video };
+//         case ContentType.TEXT:
 
-        default:
-            return contentItem;
-    }
-}
+//         default:
+//             return contentItem;
+//     }
+// }
 
 async function fetchContents(pageID: string) {
     try {
