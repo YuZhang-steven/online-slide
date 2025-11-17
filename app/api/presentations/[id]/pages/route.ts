@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/prisma/prisma";
 import { UpdatePageSchema } from "@/lib/zod/schemas";
-import { ca } from "zod/locales";
+
 
 
 
@@ -107,7 +107,6 @@ export async function PUT(
         data = UpdatePageSchema.parse(json);
     } catch (error) {
         return new Response("Bad Request: Invalid data", { status: 400 });
-
     }
 
     const { order, contents, deletedContentIds } = data;

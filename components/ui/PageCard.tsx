@@ -6,20 +6,20 @@ import { Card, CardFooter } from "./card"
 
 type Props = {
     pageID: string
-    footer?: string | number
+    index: number
     presentationID: string
     pageList: string[]
     setPageList: (pages: string[]) => void
 }
 
 export default function PageCard({
-    pageID, footer, presentationID, setPageList, pageList }: Props) {
+    pageID, index, presentationID, setPageList, pageList }: Props) {
 
     const { switchToANewPage } = useSwitchToANewPage();
 
     //handle click th page card and update the url search params
     function handleClick() {
-        switchToANewPage(pageID);
+        switchToANewPage({ pageID: pageID, pageIndex: index });
 
     }
 
@@ -88,7 +88,7 @@ export default function PageCard({
                     className="h-20 w-50 bg-muted"
                 />
                 <CardFooter>
-                    <p>{footer}</p>
+                    <p>{index}</p>
                 </CardFooter>
 
             </div>

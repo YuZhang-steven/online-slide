@@ -17,8 +17,9 @@ export default function PageSelectionArea({ pageArr, presentationId }: Props) {
     const { switchToANewPage } = useSwitchToANewPage()
 
     useEffect(() => {
+        //set to the first page by default
         if (pageList.length > 0 && !currentPageID) {
-            switchToANewPage(pageList[0])
+            switchToANewPage({ pageID: pageList[0], pageIndex: 1 });
         }
     }, [currentPageID, pageList])
 
@@ -34,7 +35,7 @@ export default function PageSelectionArea({ pageArr, presentationId }: Props) {
                     <PageCard
                         key={pageId}
                         pageID={pageId}
-                        footer={index + 1}
+                        index={index + 1}
                         presentationID={presentationId}
                         setPageList={setPageList}
                         pageList={pageList}

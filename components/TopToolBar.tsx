@@ -5,15 +5,18 @@ import VideoBlockAdd from './TopBarTools/VideoBlockAdd'
 import { useCurrentPageStore } from './globalState/useCurrentPageStore';
 import SavePageButton from './TopBarTools/SavePageButton';
 
+type Props = {
+    presentationID: string
+}
 
-export default function TopToolBar() {
+export default function TopToolBar({ presentationID }: Props) {
     const currentPageID = useCurrentPageStore((state) => state.currentPageID);
     if (!currentPageID) {
         return null;
     }
     return (
         <div className="flex">
-            <SavePageButton pageID={currentPageID} />
+            <SavePageButton pageID={currentPageID} presentationID={presentationID} />
             <TextBlockAdd pageID={currentPageID} />
             <ImageBlockAdd pageID={currentPageID} />
             <VideoBlockAdd pageID={currentPageID} />

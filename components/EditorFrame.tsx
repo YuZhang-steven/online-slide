@@ -40,7 +40,7 @@ export default function EditorFrame(
                     id="editor-toolbar-top"
                     className="h-20 w-full bg-blue-500"
                 >
-                    <TopToolBar />
+                    <TopToolBar presentationID={id} />
                 </div>
                 <div
                     className=" bg-red-500 border-4 border-black overflow-auto"
