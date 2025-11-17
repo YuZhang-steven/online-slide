@@ -1,8 +1,9 @@
 import { contentsMap } from "@/components/globalState/contentsMap";
-import { Content, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 type Props = {
     pageID: string;
+    presentationID: string;
 }
 type PageWithContent = Prisma.PageGetPayload<{
     include: {
@@ -10,24 +11,55 @@ type PageWithContent = Prisma.PageGetPayload<{
     };
 }>;
 
-export default async function fetchAllContentsAndProcessing({ pageID }: Props) {
-    const data = await fetchContents(pageID);
+export default async function fetchAllContentsAndProcessing({ pageID, presentationID }: Props) {
+    // Fetch contents from the API
+    const data = await fetchContents(pageID, presentationID);
+    // create separate arrays for each content type
+    const textIDs: string[] = []
+    const imageIDs: string[] = []
+    const videoIDs: string[] = []
+
     if (!data) {
-        return null;
+        return {
+            textIDs,
+            imageIDs,
+            videoIDs,
+        }
     }
     const contents = data.content;
+
+
+
+    // Process and categorize contents by type, then store in contentsMap
     contents.forEach((contentItem) => {
-        addItemToContentMap(contentItem);
+        switch (contentItem.type) {
+            case "TEXT":
+                textIDs.push(contentItem.id);
+                break;
+            case "IMAGE":
+                imageIDs.push(contentItem.id);
+                break;
+            case "VIDEO":
+                videoIDs.push(contentItem.id);
+                break;
+            default:
+                console.warn(`Unsupported content type: ${contentItem.type}`);
+                return;
+        }
+        contentsMap.set(contentItem.id, contentItem);
     });
+    return {
+        textIDs,
+        imageIDs,
+        videoIDs,
+    };
 }
 
-function addItemToContentMap(contentItem: Content) {
-    contentsMap.set(contentItem.id, contentItem);
-}
 
-async function fetchContents(pageID: string) {
+
+async function fetchContents(pageID: string, presentationId: string): Promise<PageWithContent | null> {
     try {
-        const res = await fetch(`/api/pages?pageID=${pageID}`, {
+        const res = await fetch(`/api/presentations/${presentationId}/pages?pageID=${pageID}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

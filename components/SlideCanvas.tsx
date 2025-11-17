@@ -8,8 +8,13 @@ import RenderingVideoContent from "./renderingElementsType/RenderingVideoContent
 import Konva from "konva";
 import { useCurrentPageStore } from "./globalState/useCurrentPageStore";
 import { useCurrentPageContentStore } from "./globalState/useCurrentPageContentStore";
+import fetchAllContentsAndProcessing from "@/lib/dataProcessing/fetchAllContentsAndProcessing";
 
-export default function SlideCanvas() {
+type SlideCanvasProps = {
+    presentationID: string;
+}
+
+export default function SlideCanvas({ presentationID }: SlideCanvasProps) {
     const layerRef = useRef<KonvaLayer>(null)
     const stageRef = useRef(null)
     const currentPageID = useCurrentPageStore((state) => state.currentPageID);
@@ -20,12 +25,27 @@ export default function SlideCanvas() {
 
     //fetch all contents if currentPageID changes
     useEffect(() => {
+        if (!currentPageID) return;
         //reset all contents current list
-        setTextContents([]);
-        setImageContents([]);
-        setVideoContents([]);
+        async function fetchContents() {
+            if (!currentPageID) return;
+            const res = await fetchAllContentsAndProcessing({ pageID: currentPageID, presentationID });
+            //after fetching, update the current page content store
+            if (res) {
+                setTextContents(res.textIDs);
+                setImageContents(res.imageIDs);
+                setVideoContents(res.videoIDs);
+            }
 
+        }
+        fetchContents();
 
+        return () => {
+            //cleanup contents lists
+            setTextContents([]);
+            setImageContents([]);
+            setVideoContents([]);
+        }
     }, [currentPageID]);
 
 

@@ -10,6 +10,6 @@ export default async function EditorPage({
 
 
     return <div className="flex-1 flex ">
-        <SlideCanvas />
+        <SlideCanvas presentationID={id} />
     </div>
 }
