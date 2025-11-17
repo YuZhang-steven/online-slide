@@ -13,10 +13,12 @@ export default function SlideCanvas() {
     const stageRef = useRef(null)
     const currentPageID = useCurrentPageStore((state) => state.currentPageID);
 
+    //fetch all contents if currentPageID changes
     useEffect(() => {
-        console.log("Current Page ID changed to: ", currentPageID);
 
-    }, [currentPageID])
+    }, [currentPageID]);
+
+
     useEffect(() => {
         const anim = new Konva.Animation(() => { }, layerRef.current)
         anim.start()

@@ -51,6 +51,3 @@ export async function DELETE(
         return new Response("Internal Server Error", { status: 500 });
     }
 }
-export async function PUT() {
-    return new Response("presentation update not works");
-}

@@ -3,6 +3,7 @@ import { contentsMap } from "../globalState/contentsMap";
 import { useRef, useState } from "react";
 import Konva from "konva";
 import useTransformationHandle from "@/lib/hooks/useTransformationHandle";
+import useImage from "use-image";
 
 type Props = {
     id: string
@@ -24,9 +25,12 @@ export default function ImageContent({ id }: Props) {
         localStateSetter: setContent
     })
 
+    // Load image using the URL
+    const [img] = useImage(content?.url || "", "anonymous");
+
 
     // if no image content, render empty div
-    if (!content || !content.img) return null
+    if (!content || !img) return null
     return (
         <>
             <Image
@@ -36,7 +40,7 @@ export default function ImageContent({ id }: Props) {
                 y={content.y}
                 width={content.width}
                 height={content.height}
-                image={content.img}
+                image={img}
                 draggable
                 onTransformEnd={handleTransformEnd}
             />
