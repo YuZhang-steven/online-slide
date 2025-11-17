@@ -11,12 +11,17 @@ type Props = {
 
 export default function TopToolBar({ presentationID }: Props) {
     const currentPageID = useCurrentPageStore((state) => state.currentPageID);
-    if (!currentPageID) {
+    const currentPageIndex = useCurrentPageStore((state) => state.currentPageIndex);
+    if (!currentPageID || currentPageIndex === null) {
         return null;
     }
     return (
         <div className="flex">
-            <SavePageButton pageID={currentPageID} presentationID={presentationID} />
+            <SavePageButton
+                pageID={currentPageID}
+                presentationID={presentationID}
+                pageIndex={currentPageIndex}
+            />
             <TextBlockAdd pageID={currentPageID} />
             <ImageBlockAdd pageID={currentPageID} />
             <VideoBlockAdd pageID={currentPageID} />

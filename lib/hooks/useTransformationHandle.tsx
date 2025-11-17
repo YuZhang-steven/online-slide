@@ -40,6 +40,17 @@ export default function useTransformationHandle(
             node.scaleX(1);
             node.scaleY(1);
 
+            console.log("transform location"
+                , {
+                    x: node.x(),
+                    y: node.y(),
+                    width: newWidth,
+                    height: newHeight,
+                    rotation: node.rotation(),
+                }
+            );
+
+
             //update local state
             localStateSetter({
                 ...content,

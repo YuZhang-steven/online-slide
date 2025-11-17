@@ -5,3 +5,12 @@ export interface ContentLocal extends Content {
 }
 
 export const contentsMap = new Map<string, ContentLocal>();
+
+export function packageContentArray(): Content[] {
+    const contentsArray: Content[] = [];
+    contentsMap.forEach((content) => {
+        const { img, video, ...rest } = content;
+        contentsArray.push(rest);
+    });
+    return contentsArray;
+}

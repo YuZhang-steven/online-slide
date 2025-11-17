@@ -110,6 +110,15 @@ export async function PUT(
     }
 
     const { order, contents, deletedContentIds } = data;
+    console.log(
+        "Updating Page:", {
+        pageID,
+        order,
+        contents,
+        deletedContentIds
+    }
+    );
+
 
     try {
         await prisma.$transaction(async (tx) => {
@@ -126,7 +135,17 @@ export async function PUT(
             for (const item of contents) {
                 if (item.id.startsWith("New_")) {
                     await tx.content.create({
-                        data: { ...item, pageId: pageID }
+                        data: {
+                            pageId: pageID,
+                            type: item.type,
+                            x: item.x,
+                            y: item.y,
+                            width: item.width,
+                            height: item.height,
+                            rotation: item.rotation,
+                            text: item.text ?? null,
+                            url: item.url ?? null,
+                        }
                     })
                 } else {
                     await tx.content.update({
@@ -140,8 +159,9 @@ export async function PUT(
                 where: { id: pageID },
                 data: { order }
             });
-            return new Response("Page Updated", { status: 200 });
+
         });
+        return new Response("Page Updated", { status: 200 });
     } catch (error) {
         console.error("Error updating page:", error);
         return new Response("Internal Server Error", { status: 500 });
