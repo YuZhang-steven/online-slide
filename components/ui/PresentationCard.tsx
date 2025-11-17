@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Card, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardFooter, CardHeader, CardTitle } from "./card";
 
 type Props = {
     id: string;
