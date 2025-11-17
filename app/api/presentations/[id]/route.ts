@@ -45,6 +45,7 @@ export async function DELETE(
         await prisma.presentation.delete({
             where: { id }
         });
+
         return new Response("Presentation Deleted!", { status: 200 });
     } catch (err) {
         return new Response("Internal Server Error", { status: 500 });
