@@ -121,7 +121,7 @@ export async function PUT(
 
 
     try {
-        await prisma.$transaction(async (tx) => {
+        const res = await prisma.$transaction(async (tx) => {
             //1.delete 
             if (deletedContentIds && deletedContentIds.length > 0) {
                 await tx.content.deleteMany({
