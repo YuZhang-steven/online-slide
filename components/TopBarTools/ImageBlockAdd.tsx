@@ -45,7 +45,7 @@ export default function ImageBlockAdd({ pageID }: Props) {
                             return;
                         }
                         const { url } = await res.json();
-                        console.log("Image uploaded to R2 at URL:", url);
+                        // console.log("Image uploaded to R2 at URL:", url);
 
                         const newItem: ContentLocal = {
                             id: "New_Image_" + crypto.randomUUID(),
