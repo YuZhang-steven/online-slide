@@ -13,7 +13,7 @@ export default function TopToolBar() {
     return (
         <div className="flex">
             <TextBlockAdd />
-            <ImageBlockAdd />
+            <ImageBlockAdd pageID={currentPageID} />
             <VideoBlockAdd />
         </div>
     )
