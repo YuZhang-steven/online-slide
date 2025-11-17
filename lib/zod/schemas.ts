@@ -1,6 +1,6 @@
 
 import z from "zod";
-import { id } from "zod/locales";
+
 
 export const CreatePresentationSchema = z.object({
     title: z.string().min(1, "Tittle is required"),

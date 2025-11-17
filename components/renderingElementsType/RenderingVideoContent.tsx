@@ -5,7 +5,7 @@ import { useCurrentPageContentStore } from "../globalState/useCurrentPageContent
 
 export default function RenderingVideoContent() {
     const videoContentIDs = useCurrentPageContentStore((state) => state.videoContents)
-    console.log("Rendering Video Contents", videoContentIDs);
+
 
     return (
         <>

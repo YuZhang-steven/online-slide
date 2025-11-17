@@ -13,7 +13,7 @@ export default function SavePageButton({ pageID, presentationID, pageIndex }: Pr
 
     async function handleClick() {
         const deletedContentIDs = getDeletedContentsIDArray();
-        console.log("Save Page Clicked")
+
         const updateData: UpdatePageInput = {
             order: pageIndex,
             contents: packageContentArray(),
@@ -31,6 +31,7 @@ export default function SavePageButton({ pageID, presentationID, pageIndex }: Pr
                 console.error('Failed to save page', await res.text());
                 return;
             }
+            window.location.reload();
 
         } catch (error) {
             console.error('Error saving page:', error);
