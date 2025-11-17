@@ -7,14 +7,24 @@ import RenderingImageContent from "./renderingElementsType/RenderingImageContent
 import RenderingVideoContent from "./renderingElementsType/RenderingVideoContent";
 import Konva from "konva";
 import { useCurrentPageStore } from "./globalState/useCurrentPageStore";
+import { useCurrentPageContentStore } from "./globalState/useCurrentPageContentStore";
 
 export default function SlideCanvas() {
     const layerRef = useRef<KonvaLayer>(null)
     const stageRef = useRef(null)
     const currentPageID = useCurrentPageStore((state) => state.currentPageID);
 
+    const setTextContents = useCurrentPageContentStore.getState().setTextContents;
+    const setImageContents = useCurrentPageContentStore.getState().setImageContents;
+    const setVideoContents = useCurrentPageContentStore.getState().setVideoContents;
+
     //fetch all contents if currentPageID changes
     useEffect(() => {
+        //reset all contents current list
+        setTextContents([]);
+        setImageContents([]);
+        setVideoContents([]);
+
 
     }, [currentPageID]);
 

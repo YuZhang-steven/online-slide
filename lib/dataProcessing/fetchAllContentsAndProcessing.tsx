@@ -1,4 +1,5 @@
-import { Content, Prisma, ContentType } from "@prisma/client";
+import { contentsMap } from "@/components/globalState/contentsMap";
+import { Content, Prisma } from "@prisma/client";
 
 type Props = {
     pageID: string;
@@ -15,27 +16,14 @@ export default async function fetchAllContentsAndProcessing({ pageID }: Props) {
         return null;
     }
     const contents = data.content;
-
-
-
+    contents.forEach((contentItem) => {
+        addItemToContentMap(contentItem);
+    });
 }
 
-// function processContentItem(contentItem: Content) {
-//     switch (contentItem.type) {
-//         case ContentType.IMAGE:
-//             const img = new Image();
-//             img.src = contentItem.src;
-//             return { ...contentItem, img };
-//         case ContentType.VIDEO:
-//             const video = document.createElement("video");
-//             video.src = contentItem.src;
-//             return { ...contentItem, video };
-//         case ContentType.TEXT:
-
-//         default:
-//             return contentItem;
-//     }
-// }
+function addItemToContentMap(contentItem: Content) {
+    contentsMap.set(contentItem.id, contentItem);
+}
 
 async function fetchContents(pageID: string) {
     try {
