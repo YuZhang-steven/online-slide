@@ -14,10 +14,7 @@ export default function EditorFrame(
     { children, id, fetchedPages }: Props
 ) {
 
-
     const pageArr = fetchedPagesProcessing({ fetchedPages });
-
-
 
     return (
         <div
@@ -44,7 +41,6 @@ export default function EditorFrame(
                     className="h-20 w-full bg-blue-500"
                 >
                     <TopToolBar />
-
                 </div>
                 <div
                     className=" bg-red-500 border-4 border-black overflow-auto"

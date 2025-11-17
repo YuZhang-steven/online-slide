@@ -1,5 +1,7 @@
 "use client";
 
+
+import useSwitchToANewPage from "@/lib/hooks/useSwitchToANewPage";
 import { useCurrentPageStore } from "../globalState/useCurrentPageStore";
 import { Card, CardFooter } from "./card"
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -19,21 +21,14 @@ export default function PageCard({
     const searchParams = useSearchParams()
     const setCurrentPageID = useCurrentPageStore.getState().setCurrentPageID;
 
+    const { switchToANewPage } = useSwitchToANewPage();
+
     //handle click th page card and update the url search params
     function handleClick() {
-        console.log('Page card clicked:', pageID);
-        //get current search params
-        const newSearchParams = new URLSearchParams(
-            searchParams.toString()
-        );
-        // Update the current page ID in the global store
-        setCurrentPageID(pageID || "");
+        switchToANewPage(pageID);
 
-        // Set or update the "page" parameter
-        newSearchParams.set("page", pageID || "");
-        const newUrl = `${pathname}?${newSearchParams.toString()}`;
-        router.push(newUrl);
     }
+
 
     //handle delete page
     async function handleDelete(e: React.MouseEvent, id: string | undefined) {

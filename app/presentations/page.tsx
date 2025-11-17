@@ -1,3 +1,4 @@
+"use server"
 import CreateNewPresentation from "@/components/CreateNewPresentation";
 import { Presentation, PresentationsSchema } from "../lib/zod/schemas";
 import PresentationCard from "@/components/PresentationCard";

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import PageCard from "./ui/PageCard"
 import AddNewPageCard from "./ui/AddNewPageCard"
 import { useCurrentPageStore } from "./globalState/useCurrentPageStore"
+import useSwitchToANewPage from "@/lib/hooks/useSwitchToANewPage"
 
 type Props = {
     presentationId: string
@@ -12,11 +13,12 @@ type Props = {
 
 export default function PageSelectionArea({ pageArr, presentationId }: Props) {
     const currentPageID = useCurrentPageStore((state) => state.currentPageID);
-    const setCurrentPageID = useCurrentPageStore((state) => state.setCurrentPageID);
     const [pageList, setPageList] = useState<string[]>(pageArr || [])
+    const { switchToANewPage } = useSwitchToANewPage()
+
     useEffect(() => {
         if (pageList.length > 0 && !currentPageID) {
-            setCurrentPageID(pageList[0])
+            switchToANewPage(pageList[0])
         }
     }, [currentPageID, pageList])
 

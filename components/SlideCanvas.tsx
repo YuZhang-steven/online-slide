@@ -8,6 +8,7 @@ import Konva from "konva";
 import { useCurrentPageStore } from "./globalState/useCurrentPageStore";
 
 export default function SlideCanvas() {
+
     const layerRef = useRef(null)
     const stageRef = useRef(null)
     const currentPageID = useCurrentPageStore((state) => state.currentPageID);
@@ -24,6 +25,11 @@ export default function SlideCanvas() {
             anim.stop()
         }
     }, [layerRef.current])
+
+
+    if (!currentPageID) {
+        return null;
+    }
 
 
     return (
