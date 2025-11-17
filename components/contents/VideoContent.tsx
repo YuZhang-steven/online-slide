@@ -55,7 +55,7 @@ export default function VideoContent({ id }: Props) {
     }, [videoElement]);
 
     // handle transformer / resize
-    const { handleTransformEnd } = useTransformationHandle({
+    const { handleTransformEnd, handleDragEnd } = useTransformationHandle({
         id,
         content,
         contentRef: videoRef,
@@ -67,6 +67,7 @@ export default function VideoContent({ id }: Props) {
     if (!content || !videoElement) return null;
 
     const resumeVideo = () => {
+        handleDragEnd();
         videoElement.play().catch(() => { });
         videoRef.current?.getLayer()?.batchDraw();
     };
@@ -85,9 +86,9 @@ export default function VideoContent({ id }: Props) {
                 cache={false}
                 perfectDrawEnabled={false}
                 onDragEnd={resumeVideo}
-                onTransformEnd={(e) => {
+                onTransformEnd={() => {
                     resumeVideo();
-                    handleTransformEnd(e);
+                    handleTransformEnd();
                 }}
             />
             <Transformer

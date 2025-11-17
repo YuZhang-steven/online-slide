@@ -20,7 +20,7 @@ export default function ImageContent({ id }: Props) {
     // Load image using the URL
     const [img] = useImage(content?.url || "", "anonymous");
     //handle transformer(resize and rotate) when content changes
-    const { handleTransformEnd } = useTransformationHandle({
+    const { handleTransformEnd, handleDragEnd } = useTransformationHandle({
         id,
         content,
         contentRef: imageRef,
@@ -44,6 +44,7 @@ export default function ImageContent({ id }: Props) {
                 image={img}
                 draggable
                 onTransformEnd={handleTransformEnd}
+                onDragEnd={handleDragEnd}
             />
 
             <Transformer

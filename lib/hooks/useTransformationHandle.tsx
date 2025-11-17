@@ -27,7 +27,7 @@ export default function useTransformationHandle(
     }, [id, content, transformerRef, contentRef, loadTag])
 
     // update the contentsMap when transform ends
-    function handleTransformEnd(e: Konva.KonvaEventObject<Event>) {
+    function handleTransformEnd() {
 
         const node = contentRef.current;
 
@@ -39,17 +39,6 @@ export default function useTransformationHandle(
             // reset the scale to 1
             node.scaleX(1);
             node.scaleY(1);
-
-            console.log("transform location"
-                , {
-                    x: node.x(),
-                    y: node.y(),
-                    width: newWidth,
-                    height: newHeight,
-                    rotation: node.rotation(),
-                }
-            );
-
 
             //update local state
             localStateSetter({
@@ -72,7 +61,26 @@ export default function useTransformationHandle(
             });
         }
     }
-    return { handleTransformEnd };
+    function handleDragEnd() {
+        const node = contentRef.current;
+
+        if (node && content) {
+            //update local state
+            localStateSetter({
+                ...content,
+                x: node.x(),
+                y: node.y(),
+            });
+
+            // update the content in contentsMap
+            contentsMap.set(id, {
+                ...content,
+                x: node.x(),
+                y: node.y(),
+            });
+        }
+    }
+    return { handleTransformEnd, handleDragEnd };
 
 
 }

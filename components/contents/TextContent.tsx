@@ -19,7 +19,7 @@ export default function TextContent({ id }: Props) {
     const [isEditing, setIsEditing] = useState(false);
 
     //handle transformer(resize and rotate) when content changes
-    const { handleTransformEnd } = useTransformationHandle({
+    const { handleTransformEnd, handleDragEnd } = useTransformationHandle({
         id,
         content,
         contentRef: textRef,
@@ -120,6 +120,7 @@ export default function TextContent({ id }: Props) {
                 fill="black"
                 draggable
                 onTransformEnd={handleTransformEnd}
+                onDragEnd={handleDragEnd}
                 onClick={handleTextClick}
                 onTap={handleTextClick}
             />
