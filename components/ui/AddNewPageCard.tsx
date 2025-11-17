@@ -1,5 +1,4 @@
 
-import addNewPages from "@/app/action/addNewPages";
 import { Card, CardFooter } from "./card"
 type Props = {
     presentationId: string
@@ -29,6 +28,8 @@ export default function AddNewPageCard({
             console.error('Error adding new page:', error);
         }
     }
+
+
 
     return (
         <Card

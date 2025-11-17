@@ -5,35 +5,62 @@ import { Card, CardFooter } from "./card"
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type Props = {
-    pageId?: string
+    pageID: string
     footer?: string | number
+    presentationID: string
+    pageList: string[]
+    setPageList: (pages: string[]) => void
 }
 
 export default function PageCard({
-    pageId, footer, }: Props) {
+    pageID, footer, presentationID, setPageList, pageList }: Props) {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams()
     const setCurrentPageID = useCurrentPageStore.getState().setCurrentPageID;
+
+    //handle click th page card and update the url search params
     function handleClick() {
-        console.log('Page card clicked:', pageId);
+        console.log('Page card clicked:', pageID);
         //get current search params
         const newSearchParams = new URLSearchParams(
             searchParams.toString()
         );
         // Update the current page ID in the global store
-        setCurrentPageID(pageId || "");
+        setCurrentPageID(pageID || "");
 
         // Set or update the "page" parameter
-        newSearchParams.set("page", pageId || "");
+        newSearchParams.set("page", pageID || "");
         const newUrl = `${pathname}?${newSearchParams.toString()}`;
         router.push(newUrl);
     }
-    function handleDelete(e: React.MouseEvent) {
+
+    //handle delete page
+    async function handleDelete(e: React.MouseEvent, id: string | undefined) {
         e.stopPropagation();
-        // Implement delete functionality here
-        console.log('Delete button clicked for page:', pageId);
+        if (!id) {
+            console.error('No page ID provided for deletion.');
+            return;
+        }
+        try {
+            const res = await fetch(`/api/presentations/${presentationID}/pages`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ pageId: id }),
+            });
+            if (!res.ok) {
+                console.error('Failed to delete page');
+                return;
+            }
+            setPageList(pageList.filter((page) => page !== id));
+
+        } catch (error) {
+            console.error('Error deleting page:', error);
+        }
     }
+
     return (
         <Card
             className="
@@ -55,7 +82,7 @@ export default function PageCard({
                 transition-opacity duration-150
                 cursor-pointer 
                 "
-                onClick={handleDelete}
+                onClick={(e) => handleDelete(e, pageID)}
             >
                 X
             </button>

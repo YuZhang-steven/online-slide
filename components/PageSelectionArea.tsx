@@ -31,8 +31,11 @@ export default function PageSelectionArea({ pageArr, presentationId }: Props) {
                 pageList.map((pageId, index) => (
                     <PageCard
                         key={pageId}
-                        pageId={pageId}
+                        pageID={pageId}
                         footer={index + 1}
+                        presentationID={presentationId}
+                        setPageList={setPageList}
+                        pageList={pageList}
                     />
                 ))
             }
