@@ -13,7 +13,7 @@ export default function PresentationCard({ id, title, date }: Props) {
 
     async function handleDelete(e: React.MouseEvent, id: string) {
         e.preventDefault();
-        e.stopPropagation();
+        e.stopPropagation()
         const confirmed = window.confirm(
             "Are you sure you want to delete this presentation? This action cannot be undone."
         );
@@ -28,8 +28,8 @@ export default function PresentationCard({ id, title, date }: Props) {
                 console.error('Failed to delete presentation');
                 return;
             }
-            // Optionally, you can add some UI feedback here, like removing the card from view
-            window.location.reload(); // Simple way to refresh the list
+            //  refresh the list
+            window.location.reload();
         } catch (error) {
             console.error('Error deleting presentation:', error);
         }
