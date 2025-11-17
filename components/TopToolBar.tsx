@@ -3,6 +3,7 @@ import TextBlockAdd from './TopBarTools/TextBlockAdd'
 import ImageBlockAdd from './TopBarTools/ImageBlockAdd'
 import VideoBlockAdd from './TopBarTools/VideoBlockAdd'
 import { useCurrentPageStore } from './globalState/useCurrentPageStore';
+import SavePageButton from './TopBarTools/SavePageButton';
 
 
 export default function TopToolBar() {
@@ -12,7 +13,8 @@ export default function TopToolBar() {
     }
     return (
         <div className="flex">
-            <TextBlockAdd />
+            <SavePageButton pageID={currentPageID} />
+            <TextBlockAdd pageID={currentPageID} />
             <ImageBlockAdd pageID={currentPageID} />
             <VideoBlockAdd pageID={currentPageID} />
         </div>

@@ -5,7 +5,11 @@ import { TextCursorInputIcon } from 'lucide-react'
 import { ContentLocal, contentsMap } from '../globalState/contentsMap'
 import { useCurrentPageContentStore } from '../globalState/useCurrentPageContentStore'
 
-export default function TextBlockAdd() {
+type Props = {
+    pageID: string
+}
+
+export default function TextBlockAdd({ pageID }: Props) {
 
     const setTextContents = useCurrentPageContentStore.getState().setTextContents
 
@@ -15,7 +19,7 @@ export default function TextBlockAdd() {
         const newTextContent: ContentLocal = {
             id: randomID,
             type: ContentType.TEXT,
-            pageId: "0",
+            pageId: pageID,
             x: 0,
             y: 0,
             width: 200,
