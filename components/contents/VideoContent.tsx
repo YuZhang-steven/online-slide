@@ -10,20 +10,18 @@ type Props = {
 
 
 export default function VideoContent({ id }: Props) {
-    const videoRef = useRef<Konva.Image | null>(null)
+    const videoRef = useRef<Konva.Image | null>(null);
     const transformerRef = useRef<Konva.Transformer | null>(null);
 
-    //get video content from contentsMap
     const [content, setContent] = useState(contentsMap.get(id));
-    const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(
-        content?.video || null
-    );
+    const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(content?.video || null);
 
-    //initialize video
+    // initialize video
     useEffect(() => {
-        if (content && content.url) {
+        if (!content?.video && content?.url) {
             const video = document.createElement('video');
             video.src = content.url;
+            video.crossOrigin = "anonymous";
             video.muted = true;
             video.loop = true;
             video.playsInline = true;
@@ -33,16 +31,30 @@ export default function VideoContent({ id }: Props) {
                 setVideoElement(video);
                 content.video = video;
                 contentsMap.set(id, content);
+                video.play().catch(() => { });
+            };
 
-            }
-            video.load()
+            video.load();
         }
     }, [content, id]);
 
+    // force layer redraw for video playback
+    useEffect(() => {
+        if (!videoElement) return;
+        const layer = videoRef.current?.getLayer();
+        if (!layer) return;
 
+        const anim = new Konva.Animation(() => {
+            layer.batchDraw();
+        }, layer);
+        anim.start();
 
+        return () => {
+            anim.stop();
+        };
+    }, [videoElement]);
 
-    //handle transformer(resize and rotate) when content changes
+    // handle transformer / resize
     const { handleTransformEnd } = useTransformationHandle({
         id,
         content,
@@ -50,10 +62,14 @@ export default function VideoContent({ id }: Props) {
         transformerRef,
         localStateSetter: setContent,
         loadTag: videoElement
-    })
+    });
 
-    // if no video content, render empty div
-    if (!content || !videoElement) return null
+    if (!content || !videoElement) return null;
+
+    const resumeVideo = () => {
+        videoElement.play().catch(() => { });
+        videoRef.current?.getLayer()?.batchDraw();
+    };
 
     return (
         <>
@@ -66,21 +82,20 @@ export default function VideoContent({ id }: Props) {
                 height={content.height}
                 image={videoElement}
                 draggable
-                onTransformEnd={handleTransformEnd}
+                cache={false}
+                perfectDrawEnabled={false}
+                onDragEnd={resumeVideo}
+                onTransformEnd={(e) => {
+                    resumeVideo();
+                    handleTransformEnd(e);
+                }}
             />
             <Transformer
                 ref={transformerRef}
-                rotateEnabled={true}
+                rotateEnabled
                 enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
-                boundBoxFunc={(oldBox, newBox) => {
-                    // prevent too small size
-                    if (newBox.width < 20 || newBox.height < 20) {
-                        return oldBox;
-                    }
-                    return newBox;
-                }}
+                boundBoxFunc={(oldBox, newBox) => (newBox.width < 20 || newBox.height < 20 ? oldBox : newBox)}
             />
         </>
-
-    )
+    );
 }

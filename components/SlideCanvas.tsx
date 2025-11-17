@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useRef } from "react";
 import { Layer, Stage } from "react-konva";
+import { Layer as KonvaLayer } from "konva/lib/Layer";
 import RenderingTextContent from "./renderingElementsType/RenderingTextContent";
 import RenderingImageContent from "./renderingElementsType/RenderingImageContent";
 import RenderingVideoContent from "./renderingElementsType/RenderingVideoContent";
@@ -8,8 +9,7 @@ import Konva from "konva";
 import { useCurrentPageStore } from "./globalState/useCurrentPageStore";
 
 export default function SlideCanvas() {
-
-    const layerRef = useRef(null)
+    const layerRef = useRef<KonvaLayer>(null)
     const stageRef = useRef(null)
     const currentPageID = useCurrentPageStore((state) => state.currentPageID);
 
@@ -20,13 +20,16 @@ export default function SlideCanvas() {
 
 
     useEffect(() => {
-        const anim = new Konva.Animation(() => { }, layerRef.current)
+        if (!layerRef.current) return;
+        const layer = layerRef.current;
+        const anim = new Konva.Animation(() => {
+            layer.batchDraw(); // redraw video frames
+        }, layer);
         anim.start()
-
         return () => {
             anim.stop()
         }
-    }, [layerRef.current])
+    }, [])
 
 
     if (!currentPageID) {
