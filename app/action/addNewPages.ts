@@ -3,7 +3,6 @@
 import { prisma } from "@/prisma/prisma";
 
 type Props = {
-
     presentationId: string;
 }
 

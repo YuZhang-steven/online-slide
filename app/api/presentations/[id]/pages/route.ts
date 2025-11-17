@@ -1,5 +1,5 @@
-import addNewPages from "@/app/action/addNewPages";
 import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/prisma/prisma";
 
 
 export async function POST(
@@ -8,14 +8,27 @@ export async function POST(
 ) {
     try {
         const { id } = await context.params;
-        const res = await addNewPages({ presentationId: id });
+        //find a the last page
+        const maxPage = await prisma.page.findFirst({
+            where: { presentationId: id },
+            orderBy: { order: 'desc' }
+        })
 
-        if (!res || !res.data) {
-            return new NextResponse("Failed to add new page", { status: 500 });
-        }
-
-        return new NextResponse(JSON.stringify(res.data), { status: 201 });
+        const newOrder = maxPage ? maxPage.order + 1 : 1;
+        const addNewPage = await prisma.page.create({
+            data: {
+                order: newOrder,
+                presentation: { connect: { id } }
+            }
+        })
+        return new NextResponse(JSON.stringify(addNewPage), { status: 201 });
     } catch (err) {
         return new NextResponse("Internal Server Error", { status: 500 });
     }
+}
+
+export async function DELETE(
+
+) {
+    return new Response("Delete a Presenttion!");
 }

@@ -1,5 +1,4 @@
 
-
 import addNewPages from "@/app/action/addNewPages";
 import { Card, CardFooter } from "./card"
 type Props = {
@@ -10,17 +9,27 @@ type Props = {
 
 export default function AddNewPageCard({
     presentationId, pageList, setPageList }: Props) {
-    async function handleAddNewPage() {
-        const res = await addNewPages({ presentationId })
-        if (res.status !== '201') {
-            console.error('Failed to add new page')
-            return
-        }
-        console.log('New page added:', res.data);
-        const newPageId = (pageList.length + 1).toString()
-        setPageList([...pageList, newPageId])
 
+    async function handleAddNewPage() {
+        try {
+            const res = await fetch(`/api/presentations/${presentationId}/pages`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!res.ok) {
+                console.error('Failed to add new page');
+                return;
+            }
+            const data = await res.json();
+            console.log('New page added:', data);
+            setPageList([...pageList, data.id]);
+        } catch (error) {
+            console.error('Error adding new page:', error);
+        }
     }
+
     return (
         <Card
             className="cursor-pointer 
