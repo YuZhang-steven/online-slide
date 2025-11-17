@@ -1,8 +1,21 @@
 import { s3Client } from "@/lib/s3Client";
+import { uploadToR2Schema } from "@/lib/zod/schemas";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 
 export async function POST(request: Request) {
-    const { name, type, data } = request.body
+    let body
+    try {
+        body = await request.json();
+    } catch (error) {
+        return new Response("Bad Request: Invalid JSON", { status: 400 });
+    }
+
+    const parseResult = uploadToR2Schema.safeParse(body);
+    if (!parseResult.success) {
+        return new Response("Bad Request: " + JSON.stringify(parseResult.error.issues), { status: 400 });
+    }
+
+    const { name, type, data } = parseResult.data;
     if (!name || !type || !data) {
         return new Response("Bad Request: Missing fields", { status: 400 });
     }

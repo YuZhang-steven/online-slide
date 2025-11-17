@@ -14,3 +14,9 @@ export const PresentationSchema = z.object({
 
 export const PresentationsSchema = z.array(PresentationSchema);
 export type Presentation = z.infer<typeof PresentationSchema>;
+
+export const uploadToR2Schema = z.object({
+    name: z.string().min(1),
+    type: z.string().min(1),
+    data: z.string().min(1) // base64 string
+})
