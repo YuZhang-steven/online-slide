@@ -14,7 +14,7 @@ export default function TopToolBar() {
         <div className="flex">
             <TextBlockAdd />
             <ImageBlockAdd pageID={currentPageID} />
-            <VideoBlockAdd />
+            <VideoBlockAdd pageID={currentPageID} />
         </div>
     )
 }
