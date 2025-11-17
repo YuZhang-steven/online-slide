@@ -2,9 +2,7 @@
 
 
 import useSwitchToANewPage from "@/lib/hooks/useSwitchToANewPage";
-import { useCurrentPageStore } from "../globalState/useCurrentPageStore";
 import { Card, CardFooter } from "./card"
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type Props = {
     pageID: string
@@ -16,10 +14,6 @@ type Props = {
 
 export default function PageCard({
     pageID, footer, presentationID, setPageList, pageList }: Props) {
-    const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams()
-    const setCurrentPageID = useCurrentPageStore.getState().setCurrentPageID;
 
     const { switchToANewPage } = useSwitchToANewPage();
 
