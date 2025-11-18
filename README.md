@@ -40,14 +40,20 @@ cd presentation-editor
 ### 2. Run the development server
 
 ```bash
-
+# using npm
 npm install
 npm run dev
-# or
+
+# using yarn
+yarn install
 yarn dev
-# or
+
+# using pnpm
+pnpm install
 pnpm dev
-# or
+
+# using bun
+bun install
 bun dev
 ```
 
@@ -73,12 +79,33 @@ R2_PUBLIC_URL=
 
 ### Backend
 
-Next.js, TypeScript, Zod, PostgreSQL
+Next.js API routes (or a separate server if applicable)
+TypeScript – Shared domain types
+Zod – Runtime validation + schema inference
+Prisma – Type-safe ORM for database access
+PostgreSQL – Primary database for persistence
+Cloudflare R2 – Object storage for images/videos
 
 ### Frontend
 
-Konva, Zustand, TailwindCSS, Shadcn
+Next.js – React framework for the SPA + routing
+TypeScript – Strict typing across the app
+Zustand – Lightweight global state management
+Konva / react-konva – Canvas-based presentation editor (drag/move/resize content)
+use-image – Image loading helper for Konva
+TailwindCSS – Utility-first styling
+Shadcn/UI – Reusable, accessible UI components
 
 ## Project Structure
 
-
+```text
+app/                # Next.js App Router pages & API routes
+components/         # Reusable UI components (Shadcn, editor UI, etc.)
+lib/                # Server utilities (Prisma, R2, Zod schemas, types)
+store/              # Zustand global state
+hooks/              # Reusable custom hooks
+prisma/             # Prisma schema & migrations
+public/             # Static assets
+styles/             # Global & component-level styles
+docs/               # Architecture diagrams & documentation
+```

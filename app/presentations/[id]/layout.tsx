@@ -1,4 +1,4 @@
-import fetchingAllPages from "@/app/action/fetchingAllPages";
+import fetchingAllPages from "@/action/fetchingAllPages";
 import EditorFrame from "@/components/EditorFrame";
 import { Page } from "@prisma/client";
 

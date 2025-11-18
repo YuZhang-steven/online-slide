@@ -2,7 +2,7 @@
 import CreateNewPresentation from "@/components/CreateNewPresentation";
 import { Presentation, PresentationsSchema } from "../../lib/zod/schemas";
 
-import fetchingAllPresentations from "../action/fetchingAllPresentations";
+import fetchingAllPresentations from "../../action/fetchingAllPresentations";
 import PresentationCard from "@/components/ui/PresentationCard";
 
 export default async function PresetationPage() {
