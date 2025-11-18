@@ -175,8 +175,8 @@ State management design:
 - deletedContentSet tracks content removed locally but not yet persisted
 
 - Global state tracks:
--- the current page
--- the content IDs shown on the canvas
+  - the current page
+  - the content IDs shown on the canvas
 
 When loading a page, the app fetches its contents and add them to the maps.In the canvas component, content IDs are organized into arrays by type then send into global state.
 
