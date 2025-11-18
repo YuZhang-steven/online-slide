@@ -19,14 +19,10 @@ import dateFormater from "@/lib/helper/dateFormater";
  */
 
 export default async function PresetationPage() {
-    const res = await fetchingAllPresentations()
-    if (!res.ok) {
-        throw new Error('Failed to fetch presentations');
-    }
+    const presentationsData = await fetchingAllPresentations();
 
-    const json = await res.json();
     //validte with Zod
-    const data: Presentation[] = PresentationsSchema.parse(json);
+    const data: Presentation[] = PresentationsSchema.parse(presentationsData);
 
     return (
         <div>
@@ -40,7 +36,7 @@ export default async function PresetationPage() {
                 <CreateNewPresentation />
                 {
                     data.map((presentation) => {
-                        const date = dateFormater(presentation.updatedAt)
+                        const date = dateFormater(presentation.updatedAt.toISOString())
                         return (
                             <PresentationCard
                                 key={presentation.id}

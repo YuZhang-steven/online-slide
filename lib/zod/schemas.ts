@@ -9,8 +9,8 @@ export const CreatePresentationSchema = z.object({
 export const PresentationSchema = z.object({
     id: z.string(),
     title: z.string(),
-    createdAt: z.string(),
-    updatedAt: z.string(),
+    createdAt: z.date(),
+    updatedAt: z.date(),
 })
 
 export const PresentationsSchema = z.array(PresentationSchema);

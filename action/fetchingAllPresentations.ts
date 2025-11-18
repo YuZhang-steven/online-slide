@@ -1,3 +1,4 @@
+"use server"
 import { prisma } from "@/prisma/prisma";
 
 /**
@@ -14,15 +15,11 @@ import { prisma } from "@/prisma/prisma";
 export default async function fetchingAllPresentations() {
     try {
         const presentations = await prisma.presentation.findMany();
-        return new Response(JSON.stringify(presentations), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        return presentations;
     } catch (error) {
-        return new Response(JSON.stringify({
-            error: 'Internal Server Error'
-        }), {
-            status: 500, headers: { 'Content-Type': 'application/json' }
-        });
+        // Log the error for server-side debugging
+        console.error("Error fetching presentations:", error);
+        // Re-throw the error to be caught by the calling component
+        throw new Error('Failed to retrieve presentations from the database.');
     }
 }
