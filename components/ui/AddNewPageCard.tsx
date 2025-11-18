@@ -35,15 +35,19 @@ export default function AddNewPageCard({
         <Card
             className="cursor-pointer 
             p-2 m-2
-             bg-purple-200  hover:bg-purple-300
-             transition-transform duration-200
-             flex flex-col items-center
+             bg-sky-100  hover:bg-sky-200 
+             transition-color duration-200
+              shadow-md
+             
              "
             onClick={handleAddNewPage}
         >
 
 
-            <CardFooter>
+            <CardFooter
+                className="flex flex-col items-center"
+
+            >
                 <p>+</p>
                 <p> Add New Page </p>
             </CardFooter>

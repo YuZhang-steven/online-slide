@@ -19,13 +19,14 @@ export default function EditorFrame(
     return (
         <div
             id="editor-frame"
-            className="fixed h-full w-full bg-amber-300
+            className="fixed h-full w-full
             flex
             "
         >
             <div
                 id="editor-sidebar"
-                className="h-full w-64 bg-emerald-500"
+                className="h-full w-64 bg-gray-100
+               border-r-2 border-gray-400/50 "
             >
                 <PageSelectionArea
                     presentationId={id}
@@ -38,12 +39,12 @@ export default function EditorFrame(
             >
                 <div
                     id="editor-toolbar-top"
-                    className="h-20 w-full bg-blue-500"
+                    className="h-20 w-full border-b-3 border-gray-400/50  "
                 >
                     <TopToolBar presentationID={id} />
                 </div>
                 <div
-                    className=" bg-red-500 border-4 border-black overflow-auto"
+                    className=" bg-gray-300  overflow-auto flex-1 flex"
                 >{children}</div>
 
             </div>

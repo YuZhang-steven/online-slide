@@ -34,9 +34,9 @@ export default function CreateNewPresentation() {
                 relative group
                 cursor-pointer hover:scale-102
                 flex items-center justify-center
-                bg-gray-200/60 text-gray-700  
-                shadow-lg hover:bg-sky-200 
-                transition-transform duration-200
+                bg-gray-200/60 hover:bg-sky-200 text-gray-700
+                transition-color duration-200
+                shadow-lg 
              "
 
             onClick={createPresentation}

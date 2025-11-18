@@ -26,7 +26,7 @@ export default function PageSelectionArea({ pageArr, presentationId }: Props) {
     return (
         <div
             id="page-selection-area"
-            className="h-full w-full bg-purple-400 
+            className="h-full w-full  
             flex flex-col items-center overflow-auto
             "
         >

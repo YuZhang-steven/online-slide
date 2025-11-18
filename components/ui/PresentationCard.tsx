@@ -50,7 +50,7 @@ export default function PresentationCard({ id, title, date }: Props) {
                 cursor-pointer hover:scale-102
                 bg-gray-200/60 text-gray-700  
                 shadow-lg hover:bg-sky-200 
-                transition-transform duration-200
+                transition-color duration-200
              "
             >
                 <button
@@ -59,7 +59,7 @@ export default function PresentationCard({ id, title, date }: Props) {
                 w-10 h-10 rounded-lg flex items-center justify-center
                 bg-gray-100 hover:bg-gray-200 text-gray-300 hover:text-gray-600
                 opacity-0 group-hover:opacity-100 hover:opacity-100
-                transition-opacity duration-150
+                transition-color duration-150
                 cursor-pointer 
                 "
                     onClick={(e) => handleDelete(e, id)}

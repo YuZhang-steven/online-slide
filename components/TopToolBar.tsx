@@ -16,7 +16,7 @@ export default function TopToolBar({ presentationID }: Props) {
         return null;
     }
     return (
-        <div className="flex">
+        <div className="flex h-full w-ful bg-gray-100  items-center px-4">
             <SavePageButton
                 pageID={currentPageID}
                 presentationID={presentationID}
