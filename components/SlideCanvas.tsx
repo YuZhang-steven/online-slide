@@ -81,7 +81,9 @@ export default function SlideCanvas({ presentationID }: SlideCanvasProps) {
                     overflow: "hidden",
                     border: "1px solid #ccc",
                     backgroundColor: "#fff",
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                 }}
+
             >
                 <Stage width={1024} height={798} ref={stageRef}>
                     <Layer ref={layerRef}>

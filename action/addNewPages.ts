@@ -10,7 +10,7 @@ export default async function addNewPages({
     presentationId
 }: Props) {
     try {
-        //find a the last page
+        //find the last page
         const maxPage = await prisma.page.findFirst({
             where: { presentationId },
             orderBy: { order: 'desc' }
