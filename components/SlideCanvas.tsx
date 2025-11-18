@@ -10,6 +10,23 @@ import { useCurrentPageStore } from "./globalState/useCurrentPageStore";
 import { useCurrentPageContentStore } from "./globalState/useCurrentPageContentStore";
 import fetchAllContentsAndProcessing from "@/lib/dataProcessing/fetchAllContentsAndProcessing";
 
+/**
+ * SlideCanvas component for the presentation editor.
+ * 
+ * Renders the main canvas for a single presentation page using Konva.
+ * Handles fetching and managing the current page's text, image, and video content,
+ * and updates the content stores. Also manages the Konva animation loop for rendering
+ * video frames.
+ *
+ * @component
+ * @param {string} props.presentationID - The ID of the current presentation.
+ * @returns {JSX.Element | null} The slide canvas component, or null if no page is selected.
+ * @notes
+ * - Uses `useEffect` to fetch page contents whenever `currentPageID` changes.
+ * - Resets content stores on unmount or page change.
+ * - Sets up a Konva.Animation loop for redrawing the layer continuously (for videos).
+ */
+
 type SlideCanvasProps = {
     presentationID: string;
 }

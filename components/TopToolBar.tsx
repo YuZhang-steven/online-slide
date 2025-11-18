@@ -4,6 +4,14 @@ import ImageBlockAdd from './TopBarTools/ImageBlockAdd'
 import VideoBlockAdd from './TopBarTools/VideoBlockAdd'
 import { useCurrentPageStore } from './globalState/useCurrentPageStore';
 import SavePageButton from './TopBarTools/SavePageButton';
+/**
+ * Top toolbar component for the presentation editor.
+ * Displays Tool buttons 
+ *
+ * @component
+ * @param {string} props.presentationID - The ID of the current presentation.
+ * @returns {JSX.Element | null} The toolbar component, or null if no page is selected.
+ */
 
 type Props = {
     presentationID: string

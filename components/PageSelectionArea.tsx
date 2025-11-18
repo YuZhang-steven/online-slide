@@ -6,6 +6,23 @@ import AddNewPageCard from "./ui/AddNewPageCard"
 import { useCurrentPageStore } from "./globalState/useCurrentPageStore"
 import useSwitchToANewPage from "@/lib/hooks/useSwitchToANewPage"
 
+/**
+ * Sidebar component for selecting and managing pages in a presentation.
+ * 
+ * Displays a vertical list of `PageCard` components and an `AddNewPageCard`.
+ * Automatically switches to the first page if no current page is selected.
+ *
+ * @component
+ * @param {string} props.presentationId - The ID of the current presentation.
+ * @param {string[]} [props.pageArr] - Optional initial array of page IDs.
+ * @returns {JSX.Element} The page selection sidebar.
+
+ * @notes
+ * - Uses `useEffect` to set the first page as the current page if none is selected.
+ * - Maintains local `pageList` state to track available pages.
+ * - Allows switching pages using the `switchToANewPage` hook.
+ */
+
 type Props = {
     presentationId: string
     pageArr?: string[]

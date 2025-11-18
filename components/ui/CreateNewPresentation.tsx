@@ -1,6 +1,5 @@
 "use client";
-
-import { Card, CardTitle } from "./ui/card";
+import { Card, CardTitle } from "./card";
 
 
 export default function CreateNewPresentation() {
@@ -43,12 +42,6 @@ export default function CreateNewPresentation() {
         >
             <CardTitle>  Create a new presentation</CardTitle>
             <CardTitle>  + </CardTitle>
-
-
-
         </Card>
-        // <button onClick={createPresentation}>
-
-        // </button>
     );
 }

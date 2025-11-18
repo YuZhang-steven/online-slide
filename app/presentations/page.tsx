@@ -1,5 +1,5 @@
 "use server"
-import CreateNewPresentation from "@/components/CreateNewPresentation";
+import CreateNewPresentation from "@/components/ui/CreateNewPresentation";
 import { Presentation, PresentationsSchema } from "../../lib/zod/schemas";
 import fetchingAllPresentations from "../../action/fetchingAllPresentations";
 import PresentationCard from "@/components/ui/PresentationCard";
