@@ -98,14 +98,28 @@ Shadcn/UI – Reusable, accessible UI components
 
 ## Project Structure
 
+### Basic Folder Structures
+
 ```text
 app/                # Next.js App Router pages & API routes
+action/             # Server Actions for data fetching or API call
 components/         # Reusable UI components (Shadcn, editor UI, etc.)
-lib/                # Server utilities (Prisma, R2, Zod schemas, types)
-store/              # Zustand global state
-hooks/              # Reusable custom hooks
-prisma/             # Prisma schema & migrations
+lib/                # utilities for helpers, hooks and other specific funtions
+prisma/             # Prisma schema & client
 public/             # Static assets
-styles/             # Global & component-level styles
-docs/               # Architecture diagrams & documentation
+```
+
+### Route Structures
+
+```text
+└── app/
+    ├── presentation/                        # UI routes (optional grouping)
+    │   ├── page.tsx                   # Home page
+    │   ├── [id]/
+    │   │   ├── page.tsx               # Presentation list
+    │   │   └── [id]/
+    │   │       ├── page.tsx           # Editor page
+    │   │       └── components/        # Page-specific UI components
+    ├── page.tsx                 # Root layout
+    └── layout.tsx                 # Root layout
 ```
