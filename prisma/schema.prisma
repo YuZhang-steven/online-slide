@@ -26,7 +26,7 @@ model Page {
   presentationId String
   presentation   Presentation @relation(fields: [presentationId], references: [id], onDelete: Cascade)
   content        Content[]
-  order          Int
+  order          Float
 }
 
 model Content {
@@ -34,10 +34,10 @@ model Content {
   pageId   String
   page     Page        @relation(fields: [pageId], references: [id], onDelete: Cascade)
   type     ContentType
-  x        Int
-  y        Int
-  width    Int
-  height   Int
+  x        Float
+  y        Float
+  width    Float
+  height   Float
   rotation Float       @default(0)
   text     String?
   url      String?

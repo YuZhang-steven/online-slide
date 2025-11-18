@@ -134,3 +134,23 @@ public/             # Static assets
     POST → upload object to R2 Bucket
 
 ```
+
+## Design Notes
+
+This online slide build on next.js App Router Frame. It divides into two major parts: presentaion collection show and single presentation editor. All presentations, pages and contents on the page saved in database. The images and videos are uploaded to Cloudflare R2 storage.  
+
+### Data Model
+
+![Data Model Diagram](./public/doc/DataModel.jpg)
+
+Data in the data base divide into three part: Presentation/Page/Content. Each of them is one-many relation.
+
+- page uses float as order store type, because it will allowed 1.1, 1.113, 1.23 to store. So, insert page don't have to change the later page's oder. Frontend will sort the data and handle the index through array.
+- positions and size in the Content also store as float. This correspond to the data type konva used.
+- text content directly store as text, image and video store their R2 URL
+
+Possible improve:
+
+- Content can add a configure model. Image or Text style can store in in there.
+_ Page and Presentation can also has their style and configure file
+
