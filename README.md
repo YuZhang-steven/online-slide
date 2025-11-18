@@ -154,3 +154,21 @@ Possible improve:
 - Content can add a configure model. Image or Text style can store in in there.
 _ Page and Presentation can also has their style and configure file
 
+### Backend
+
+The major database use PostgreSQL. The data models are parent-child relation, so tradition PostgreSQL will support it well. Images and Videos upload to R2 Storage, so they can be store and get fast. Also, there are possilbe stream feature can used on video if needed. 
+
+Beside the traditional API, there are three server side funtions:
+addNewPage/fetchingAllPages/fetchingAllPresentations. These functions used in the server in the server side rendering
+
+### Frontend
+
+The major part of the slide editor are the contents manipulation in the 2D canvas. I used package Kanba to handle this part. They already have basic dragging/rotation/resizing handle.
+
+There are two maps and a set to manage the all pages and contents in a presentation. The pageMap include all page's id and the content's id set of that page. contentMap include all contentInformation and their id as the key. The set are used to track the content ids that have been deleted(those contents are not in the contentMap).
+
+There are also two global state to track what's the current page to show on the screen and the contents ids in that page
+
+In each rendering, the 
+
+
