@@ -2,7 +2,15 @@ import { CreatePresentationSchema } from "@/lib/zod/schemas";
 import { prisma } from "@/prisma/prisma";
 import z from "zod";
 
-export async function GET() {
+/**
+ * Retrieves all presentations from the database.
+ * @async
+ * @function GET
+ * @returns {Promise<Response>}
+ * - 200 with an array of presentations
+ * - 500 on server error
+ */
+export async function GET(): Promise<Response> {
     try {
         const presentations = await prisma.presentation.findMany();
         return new Response(JSON.stringify(presentations), {
@@ -19,9 +27,21 @@ export async function GET() {
 
 }
 
+/**
+ * Creates a new presentation.
+
+ * @async
+ * @function POST
+ * @param {Request} request - Incoming request containing presentation data.
+ * @returns {Promise<Response>}
+ * - 201 with the newly created presentation
+ * - 400 if request body is invalid (Zod validation error)
+ * - 500 on server error
+ */
+
 export async function POST(
     request: Request
-) {
+): Promise<Response> {
     try {
         const body = await request.json();
         const validatedData = CreatePresentationSchema.parse(body);

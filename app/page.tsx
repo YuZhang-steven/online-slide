@@ -1,6 +1,11 @@
 import Link from "next/link";
 
-
+/**
+ * Home page of the application.
+ * Displays a central link to navigate to the Presentation Collection page.
+ *
+ * @function Home
+ */
 export default function Home() {
 
   return (

@@ -1,10 +1,22 @@
 "use server"
 import CreateNewPresentation from "@/components/CreateNewPresentation";
 import { Presentation, PresentationsSchema } from "../../lib/zod/schemas";
-
 import fetchingAllPresentations from "../../action/fetchingAllPresentations";
 import PresentationCard from "@/components/ui/PresentationCard";
 import dateFormater from "@/lib/helper/dateFormater";
+
+/**
+ * Server Component page that displays all presentations.
+ * Fetches presentations from the database, validates with Zod,
+ * and renders a grid of `PresentationCard` components along with
+ * a `CreateNewPresentation` component.
+ *
+ * @async
+ * @function PresetationPage
+ * @returns {Promise<JSX.Element>} The page component rendering the presentations grid.
+ *
+ * @throws {Error} Throws an error if fetching presentations fails.
+ */
 
 export default async function PresetationPage() {
     const res = await fetchingAllPresentations()

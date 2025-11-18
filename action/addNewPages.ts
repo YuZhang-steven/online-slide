@@ -1,10 +1,20 @@
 "use server";
-
 import { prisma } from "@/prisma/prisma";
 
 type Props = {
     presentationId: string;
 }
+
+/**
+ * Creates a new page inside a presentation and assigns it the next available order number.
+ *
+ * Next.js Server Action
+ * @async
+ * @function addNewPages
+ * @param {string} props.presentationId - The ID of the presentation to update.
+ * @returns {Promise<{status: string, data?: prisma.Page, error?: string}>}
+ * Returns a 201 status with the new page data, or a 500 error object.
+ */
 
 export default async function addNewPages({
     presentationId

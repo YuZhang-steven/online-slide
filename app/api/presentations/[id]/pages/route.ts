@@ -3,12 +3,21 @@ import { prisma } from "@/prisma/prisma";
 import { UpdatePageSchema } from "@/lib/zod/schemas";
 
 
-
+/**
+ * Creates a new page for the specified presentation.
+ * @async
+ * @function POST
+ * @param {NextRequest} request - The incoming request.
+ * @param {{ params: Promise<{ id: string }> }} context - Route parameters.
+ * @returns {Promise<NextResponse>}
+ * - 201 with the created page
+ * - 500 on server error
+ */
 
 export async function POST(
     request: NextRequest,
     context: { params: Promise<{ id: string }> }
-) {
+): Promise<NextResponse> {
     try {
         const { id } = await context.params;
         //find a the last page
@@ -31,9 +40,20 @@ export async function POST(
     }
 }
 
+/**
+ * Deletes a page by its ID.
+ *
+ * @async
+ * @function DELETE
+ * @param {NextRequest} request - The incoming request body containing `pageID`.
+ * @returns {Promise<Response>}
+ * - 200 on success
+ * - 400 if pageID is missing
+ * - 500 on server error
+ */
 export async function DELETE(
     request: NextRequest,
-) {
+): Promise<Response> {
     const body = await request.json();
     const { pageID } = body
 
@@ -51,10 +71,21 @@ export async function DELETE(
     }
 }
 
-// get pages and all its connected content
+/**
+ * Retrieves a page and all related content.
+ *
+ * @async
+ * @function GET
+ * @param {NextRequest} request - Request containing `pageID` in search params.
+ * @returns {Promise<Response>}
+ * - 200 with page + content
+ * - 400 if pageID is missing
+ * - 404 if page is not found
+ * - 500 on server error
+ */
 export async function GET(
     request: NextRequest,
-) {
+): Promise<Response> {
     const { searchParams } = new URL(request.url);
     const pageID = searchParams.get("pageID");
 
@@ -91,9 +122,19 @@ export async function GET(
     }
 }
 
+/**
+ * Updates a page's metadata and content items.
+ * @async
+ * @function PUT
+ * @param {NextRequest} request - Request containing update data for the page.
+ * @returns {Promise<Response>}
+ * - 200 on successful update
+ * - 400 for invalid or missing data
+ * - 500 on server error
+ */
 export async function PUT(
     request: NextRequest,
-) {
+): Promise<Response> {
     // get pageID from url query
     const { searchParams } = new URL(request.url);
     const pageID = searchParams.get("pageID");
