@@ -111,15 +111,4 @@ public/             # Static assets
 
 ### Route Structures
 
-```text
-└── app/
-    ├── presentation/                        # UI routes (optional grouping)
-    │   ├── page.tsx                   # Home page
-    │   ├── [id]/
-    │   │   ├── page.tsx               # Presentation list
-    │   │   └── [id]/
-    │   │       ├── page.tsx           # Editor page
-    │   │       └── components/        # Page-specific UI components
-    ├── page.tsx                 # Root layout
-    └── layout.tsx                 # Root layout
-```
+![Route Structures Diagram](./public/doc/RouterStructure.jpg)
