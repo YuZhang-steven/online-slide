@@ -1,5 +1,7 @@
 "use client";
 
+import { Card, CardTitle } from "./ui/card";
+
 
 export default function CreateNewPresentation() {
     const title = "New Presentation" + Date.now();
@@ -27,8 +29,26 @@ export default function CreateNewPresentation() {
     }
 
     return (
-        <button onClick={createPresentation}>
-            Create a new presentation
-        </button>
+        <Card
+            className="
+                relative group
+                cursor-pointer hover:scale-102
+                flex items-center justify-center
+                bg-gray-200/60 text-gray-700  
+                shadow-lg hover:bg-sky-200 
+                transition-transform duration-200
+             "
+
+            onClick={createPresentation}
+        >
+            <CardTitle>  Create a new presentation</CardTitle>
+            <CardTitle>  + </CardTitle>
+
+
+
+        </Card>
+        // <button onClick={createPresentation}>
+
+        // </button>
     );
 }
