@@ -1,9 +1,21 @@
 "use client";
 import { Card, CardTitle } from "./card";
 
+/**
+ * Card component to create a new presentation.
+ *
+ * When clicked, it sends a POST request to the `/api/presentations` endpoint
+ * to create a new presentation with a timestamped title.
+ * On success, the page reloads to reflect the new presentation.
+ *
+ * @returns {JSX.Element} A card that creates a new presentation when clicked.
+ */
 
 export default function CreateNewPresentation() {
     const title = "New Presentation" + Date.now();
+    /**
+     * Handles click events to create a new presentation
+     */
     async function createPresentation(e: React.MouseEvent) {
         e.preventDefault();
         e.stopPropagation()

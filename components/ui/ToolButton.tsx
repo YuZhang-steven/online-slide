@@ -1,8 +1,18 @@
 import React from 'react'
+
+/**
+ * A reusable button component styled with a rounded background, hover effects, 
+ * and shadow. Designed to wrap icons or other small UI elements.
+ *
+ * @param {React.ReactNode} [props.children] - Optional content to display inside the button
+ * @param {() => void} [props.onClick] - Optional callback invoked when the button is clicked
+ */
+
 type Props = {
     children?: React.ReactNode
     onClick?: () => void
 }
+
 export default function ToolButton({ children, onClick = () => { } }: Props) {
     return (
         <div

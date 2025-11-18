@@ -1,6 +1,16 @@
 "use client";
 import Link from "next/link";
 import { Card, CardFooter, CardHeader, CardTitle } from "./card";
+/**
+ * Component representing a single presentation card.
+ *
+ * Displays the title, date, and a preview area for the presentation.
+ * Allows opening the presentation in a new tab or deleting it.
+ *
+ * @param {string} props.id - The unique ID of the presentation
+ * @param {string} props.title - The title of the presentation
+ * @param {string} props.date - The creation or modification date of the presentation
+ */
 
 type Props = {
     id: string;
@@ -10,6 +20,16 @@ type Props = {
 }
 
 export default function PresentationCard({ id, title, date }: Props) {
+
+    /**
+     * Handles deleting the presentation.
+     *
+     * Prompts the user for confirmation before sending a DELETE request.
+     * Refreshes the page list on success.
+     *
+     * @param {React.MouseEvent} e - The mouse click event
+     * @param {string} id - The ID of the presentation to delete
+     */
 
     async function handleDelete(e: React.MouseEvent, id: string) {
         e.preventDefault();

@@ -4,6 +4,18 @@ import { ContentType } from "@prisma/client";
 import { ContentLocal, contentsMap } from "../globalState/contentsMap";
 import { useCurrentPageContentStore } from "../globalState/useCurrentPageContentStore";
 
+/**
+ * Button component to add a new video block to the current page.
+ * 
+ * When clicked, it opens a file input for selecting a video file. After selecting,
+ * the video is uploaded to R2 storage, and a new video content object is created
+ * and stored in the global `contentsMap`. The current page's video content state
+ * is updated to render the video on the canvas.
+ *
+ * @param {string} props.pageID - ID of the current page where the video block will be added
+ * @returns {JSX.Element} A button that adds a new video block when clicked
+ */
+
 type Props = {
     pageID: string
 }
@@ -11,6 +23,12 @@ type Props = {
 export default function VideoBlockAdd({ pageID }: Props) {
     const setVideoContents = useCurrentPageContentStore.getState().setVideoContents;
 
+    /**
+       * Handles the click event on the button.
+       * Opens a file selector, uploads the selected video to R2,
+       * creates a new video content item, adds it to `contentsMap`,
+       * and updates the current page state.
+       */
     function handleClick() {
         const input = document.createElement('input');
         input.type = 'file';

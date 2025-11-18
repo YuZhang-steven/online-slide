@@ -1,6 +1,4 @@
 "use client";
-
-
 import useSwitchToANewPage from "@/lib/hooks/useSwitchToANewPage";
 import { Card, CardFooter } from "./card"
 
@@ -12,6 +10,19 @@ type Props = {
     setPageList: (pages: string[]) => void
 }
 
+/**
+ * Represents a single page card in a presentation.
+ *
+ * Displays the page thumbnail and index, and allows switching to the page
+ * or deleting it from the presentation.
+ *
+ * @param {string} props.pageID - The unique ID of the page
+ * @param {number} props.index - The index of the page in the presentation
+ * @param {string} props.presentationID - The ID of the presentation
+ * @param {string[]} props.pageList - Array of all page IDs in the presentation
+ * @param {(pages: string[]) => void} props.setPageList - Function to update the page list state
+ */
+
 export default function PageCard({
     pageID, index, presentationID, setPageList, pageList }: Props) {
 
@@ -22,8 +33,6 @@ export default function PageCard({
         switchToANewPage({ pageID: pageID, pageIndex: index });
 
     }
-
-
     //handle delete page
     async function handleDelete(e: React.MouseEvent, id: string | undefined) {
         e.preventDefault();

@@ -5,6 +5,7 @@ import { useCurrentPageContentStore } from '../globalState/useCurrentPageContent
 
 
 export default function RenderingTextContent() {
+    // Get text content IDs for the current page
     const textContentIDs = useCurrentPageContentStore((state) => state.textContents)
 
     return (

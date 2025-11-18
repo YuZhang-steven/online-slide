@@ -5,6 +5,16 @@ import { TextCursorInputIcon } from 'lucide-react'
 import { ContentLocal, contentsMap } from '../globalState/contentsMap'
 import { useCurrentPageContentStore } from '../globalState/useCurrentPageContentStore'
 
+/**
+ * Button component to add a new text block to the current page.
+ * Creates a new text content item, adds it to the global `contentsMap`,
+ * and updates the current page's text content state to render it on the canvas.
+ *
+ * @param {Props} props - Component props
+ * @param {string} props.pageID - ID of the current page where the text block will be added
+ * @returns {JSX.Element} A button that adds a new text block when clicked
+ */
+
 type Props = {
     pageID: string
 }
@@ -13,6 +23,11 @@ export default function TextBlockAdd({ pageID }: Props) {
 
     const setTextContents = useCurrentPageContentStore.getState().setTextContents
 
+    /**
+       * Handles the click event on the button.
+       * Generates a new text content object, stores it in the global map,
+       * and updates the current page content state so it appears on the canvas.
+       */
     function handleClick() {
         console.log("Add Text Block")
         const randomID = "New_Text_" + crypto.randomUUID()

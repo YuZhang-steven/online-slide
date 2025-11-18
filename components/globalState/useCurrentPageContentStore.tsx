@@ -1,5 +1,10 @@
 
 import { create } from "zustand";
+
+/**
+ * Global state to track the element IDs currently rendered on the canvas.
+ * We separate IDs by type: text, image, video.
+ */
 type CurrentPageContentsState = {
     textContents: string[];
     imageContents: string[];

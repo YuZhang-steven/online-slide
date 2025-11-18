@@ -3,6 +3,7 @@ import { useCurrentPageContentStore } from "../globalState/useCurrentPageContent
 
 
 export default function RenderingImageContent() {
+    // Get the list of image content IDs for the current page from the global content store
     const imageContentIDs = useCurrentPageContentStore((state) => state.imageContents)
 
     return (

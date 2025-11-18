@@ -5,6 +5,27 @@ import { useEffect, useRef, useState } from 'react';
 import Konva from 'konva';
 import useTransformationHandle from '@/lib/hooks/useTransformationHandle';
 
+/**
+ * Renders a text content block on the slide canvas with support for drag, resize, rotation, and inline editing.
+ *
+ * Uses `Konva.Text` and `Konva.Transformer` for interactive editing.
+ *
+ * @component
+ * @param {string} props.id - The unique ID of the text content to render.
+ * @returns {JSX.Element | null} A draggable and transformable text block, or `null` if the content is not available.
+ *
+ * @behavior
+ * - Loads the text content from `contentsMap` by ID.
+ * - Supports inline editing by creating a temporary HTML `<textarea>` overlay.
+ * - Applies a `Transformer` to allow resizing and rotation.
+ * - Limits the minimum width and height of the text block to 20px.
+ * - Updates local state and `contentsMap` when the text is edited, dragged, or transformed.
+ * - Automatically removes the `<textarea>` and updates the state when editing is finished (blur or Enter key).
+ *
+ * @example
+ * <TextContent id="text_123" />
+ */
+
 type Props = {
     id: string
 }

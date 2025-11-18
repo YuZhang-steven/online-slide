@@ -4,10 +4,31 @@ import { Image, Transformer } from "react-konva";
 import Konva from "konva";
 import useTransformationHandle from "@/lib/hooks/useTransformationHandle";
 
+/**
+ * Renders a video content block on the slide canvas with support for drag, resize, rotation, and live playback.
+ * Uses `Konva.Image` and `Konva.Transformer` to render a video element on the canvas.
+ *
+ * @component
+ * @param {Object} props
+ * @param {string} props.id - The unique ID of the video content to render.
+ * @returns {JSX.Element | null} A draggable, transformable, and playable video block, or `null` if the content is not available.
+ *
+ * @behavior
+ * - Loads the video from `contentsMap` or initializes it from a URL if missing.
+ * - Plays video muted and in a loop using an HTML `<video>` element.
+ * - Uses `Konva.Animation` to continuously redraw the layer for smooth video playback.
+ * - Supports dragging and transforming with a `Transformer`.
+ * - Ensures minimum width and height of 20px when resizing.
+ * - Updates local state and `contentsMap` when the video is transformed or dragged.
+ * - Automatically resumes video playback after drag or transform actions.
+ *
+ * @example
+ * <VideoContent id="video_123" />
+ */
+
 type Props = {
     id: string
 }
-
 
 export default function VideoContent({ id }: Props) {
     const videoRef = useRef<Konva.Image | null>(null);

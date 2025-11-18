@@ -4,6 +4,16 @@ import { ContentLocal, contentsMap } from "../globalState/contentsMap";
 import { ContentType } from "@prisma/client";
 import { useCurrentPageContentStore } from "../globalState/useCurrentPageContentStore";
 
+/**
+ * Component to add a new image block to the current page.
+ * Allows users to pick an image file, uploads it to the server,
+ * and adds it to the global content map and current page content state.
+ * 
+
+ * @param {string} props.pageID - ID of the current page where the image will be added.
+ * @returns {JSX.Element} A button that triggers the image upload flow.
+ */
+
 type Props = {
     pageID: string
 }
@@ -11,6 +21,11 @@ type Props = {
 export default function ImageBlockAdd({ pageID }: Props) {
     const setImageContents = useCurrentPageContentStore.getState().setImageContents;
 
+    /**
+   * Handles clicking the image add button.
+   * Opens a file picker, reads the selected file, uploads it, 
+   * and adds it to global and page-specific state.
+   */
     function handleClick() {
         const input = document.createElement('input');
         input.type = 'file';
@@ -45,7 +60,6 @@ export default function ImageBlockAdd({ pageID }: Props) {
                             return;
                         }
                         const { url } = await res.json();
-                        // console.log("Image uploaded to R2 at URL:", url);
 
                         const newItem: ContentLocal = {
                             id: "New_Image_" + crypto.randomUUID(),
