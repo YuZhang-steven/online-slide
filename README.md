@@ -112,3 +112,25 @@ public/             # Static assets
 ### Route Structures
 
 ![Route Structures Diagram](./public/doc/RouterStructure.jpg)
+
+### API Overview
+
+```text
+/api/presentations
+    GET  → fetch all presentations
+    POST → create a new presentation
+
+/api/presentations/:id
+    GET  → get a presentation with id
+    DELETE → delete a presentation with id
+
+/api/presentations/:id/pages
+    POST → create a new page in a presentation
+    GET  → get a page and all its contents with id
+    DELETE  → delete a page and all its contents
+    PUT  → update a page and alls its contents
+
+/api/upload
+    POST → upload object to R2 Bucket
+
+```
