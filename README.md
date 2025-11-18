@@ -1,14 +1,14 @@
 # Online Slide
 
-A simple full-stack web application that lets users create presentations, manage pages, and edit content similar to PowerPoint
+A simple full-stack web application that allows users to create presentations, manage pages, and edit content similar to PowerPoint.
 
 ## Features Implemented
 
 ### Presentations
 
 - List all presentations
-- Create new presentation
-- Delete presentation
+- Create new presentations
+- Delete presentations
 
 ### Pages
 
@@ -20,13 +20,12 @@ A simple full-stack web application that lets users create presentations, manage
 
 - Add text, images, or videos to a page
 - Drag and move content anywhere within the page
-- resize and rotate contents
+- Resize and rotate content
 
 ## Getting Started
 
-You can check the online deployed demo in Vercel:
+Try the live demo on Vercel:
 [http://online-slide.vercel.app](http://online-slide.vercel.app)
-
 
 ### 1. Clone the Repository
 
@@ -34,7 +33,7 @@ You can check the online deployed demo in Vercel:
 #first
 git clone https://github.com/YuZhang-steven/online-slide.git
 #then
-cd presentation-editor
+cd online-slide
 ```
 
 ### 2. Run the development server
@@ -57,12 +56,12 @@ bun install
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### 3. Environment Variable
 
-The project run on a online database with Cloudflare R2 as object storage for image and video store.
-Create .env in /app:
+The project uses a cloud-hosted PostgreSQL database and Cloudflare R2 for storing images and videos.
+Create .env in the project root:
 
 ```ini
 BASE_URL=
@@ -74,24 +73,23 @@ R2_ENDPOINT=
 R2_PUBLIC_URL=
 ```
 
-
 ## Tech Stack
 
 ### Backend
 
-Next.js API routes (or a separate server if applicable)
+Next.js API routes
 TypeScript – Shared domain types
 Zod – Runtime validation + schema inference
 Prisma – Type-safe ORM for database access
-PostgreSQL – Primary database for persistence
+PostgreSQL – Relational data persistence
 Cloudflare R2 – Object storage for images/videos
 
 ### Frontend
 
-Next.js – React framework for the SPA + routing
-TypeScript – Strict typing across the app
+Next.js – React framework + routing
+TypeScript – strict typing
 Zustand – Lightweight global state management
-Konva / react-konva – Canvas-based presentation editor (drag/move/resize content)
+Konva / react-konva – canvas-based editor for drag/resize/rotate
 use-image – Image loading helper for Konva
 TailwindCSS – Utility-first styling
 Shadcn/UI – Reusable, accessible UI components
@@ -102,9 +100,9 @@ Shadcn/UI – Reusable, accessible UI components
 
 ```text
 app/                # Next.js App Router pages & API routes
-action/             # Server Actions for data fetching or API call
+action/             # Server Actions for data fetching and mutations
 components/         # Reusable UI components (Shadcn, editor UI, etc.)
-lib/                # utilities for helpers, hooks and other specific funtions
+lib/                # Shared utilities: helpers, server logic, Zod schemas
 prisma/             # Prisma schema & client
 public/             # Static assets
 ```
@@ -121,54 +119,73 @@ public/             # Static assets
     POST → create a new presentation
 
 /api/presentations/:id
-    GET  → get a presentation with id
-    DELETE → delete a presentation with id
+    GET  → get a presentation by id
+    DELETE → delete a presentation
 
 /api/presentations/:id/pages
     POST → create a new page in a presentation
-    GET  → get a page and all its contents with id
-    DELETE  → delete a page and all its contents
-    PUT  → update a page and alls its contents
+    GET  → get a page with all its contents
+    DELETE  → delete a page and its contents
+    PUT  → update a page and its contents
 
 /api/upload
-    POST → upload object to R2 Bucket
+    POST → upload objects to R2 Bucket
 
 ```
 
 ## Design Notes
 
-This online slide build on next.js App Router Frame. It divides into two major parts: presentaion collection show and single presentation editor. All presentations, pages and contents on the page saved in database. The images and videos are uploaded to Cloudflare R2 storage.  
+This project is built using the Next.js App Router. The app is divided into two main parts:
+
+1.The presentation list
+2. The single-presentation editor
+
+All presentations, pages, and content items are stored in the database. Images and videos are uploaded to Cloudflare R2.  
 
 ### Data Model
 
 ![Data Model Diagram](./public/doc/DataModel.jpg)
 
-Data in the data base divide into three part: Presentation/Page/Content. Each of them is one-many relation.
+The database includes three entities: Presentation, Page, and Content.These form a strict one-to-many relationship chain.
 
-- page uses float as order store type, because it will allowed 1.1, 1.113, 1.23 to store. So, insert page don't have to change the later page's oder. Frontend will sort the data and handle the index through array.
-- positions and size in the Content also store as float. This correspond to the data type konva used.
-- text content directly store as text, image and video store their R2 URL
+Design considerations:
 
-Possible improve:
-
-- Content can add a configure model. Image or Text style can store in in there.
-_ Page and Presentation can also has their style and configure file
+- Pages use a float “order” value (e.g., 1.1, 1.113, 1.23).This allows inserting pages without reordering the entire sequence. The frontend sorts pages and derives indices.
+- Content positions and sizes are stored as floats, matching Konva’s coordinate system.
+- Text content is stored directly in the database; image and video content stores the corresponding R2 URLs.
 
 ### Backend
 
-The major database use PostgreSQL. The data models are parent-child relation, so tradition PostgreSQL will support it well. Images and Videos upload to R2 Storage, so they can be store and get fast. Also, there are possilbe stream feature can used on video if needed. 
+PostgreSQL is used as the main database because the data is relational and benefits from strong consistency.Images and videos are stored in Cloudflare R2 for fast access and potential future streaming capability.
 
-Beside the traditional API, there are three server side funtions:
-addNewPage/fetchingAllPages/fetchingAllPresentations. These functions used in the server in the server side rendering
+In addition to REST API endpoints, there are a few server-side helper functions used during server-side rendering:
+
+- addNewPage
+- fetchAllPages
+- fetchAllPresentations
 
 ### Frontend
 
-The major part of the slide editor are the contents manipulation in the 2D canvas. I used package Kanba to handle this part. They already have basic dragging/rotation/resizing handle.
+The core of the presentation editor is a 2D canvas powered by Konva, which provides built-in dragging, rotation, and resizing.
 
-There are two maps and a set to manage the all pages and contents in a presentation. The pageMap include all page's id and the content's id set of that page. contentMap include all contentInformation and their id as the key. The set are used to track the content ids that have been deleted(those contents are not in the contentMap).
+State management design:
 
-There are also two global state to track what's the current page to show on the screen and the contents ids in that page
+- pageMap stores all pages and their associated content IDs
+- contentMap stores all content objects by ID
+- deletedContentSet tracks content removed locally but not yet persisted
 
-In each rendering, the 
+- Global state tracks:
+-- the current page
+-- the content IDs shown on the canvas
 
+When loading a page, the app fetches its contents and add them to the maps.In the canvas component, content IDs are organized into arrays by type then send into global state.
 
+Each content modification is stored locally and the content map.
+When the user saves the page, all changes are batch-uploaded to the database.
+
+### Limitation and Future Improvement
+
+- Delete and copy/paste are not fully implemented.(Requires clearer UI and global selection state.)
+- Undo/Redo requires a history stack for content operations.
+- Video handling could be improved.In many cases, linking to YouTube might be more efficient depending on network conditions.
+- Add a configuration model for content styles (text style, image settings, etc.)and another style/config models for pages and presentations as well
