@@ -1,3 +1,4 @@
+"use client";
 import { Clapperboard } from "lucide-react";
 import ToolButton from "../ui/ToolButton";
 import { ContentType } from "@prisma/client";

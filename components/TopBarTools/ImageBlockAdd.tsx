@@ -1,3 +1,4 @@
+"use client";
 import { Image } from "lucide-react";
 import ToolButton from "../ui/ToolButton";
 import { ContentLocal, contentsMap } from "../globalState/contentsMap";

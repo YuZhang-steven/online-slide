@@ -1,9 +1,10 @@
-"use server"
+"use client"
 import CreateNewPresentation from "@/components/ui/CreateNewPresentation";
 import { Presentation, PresentationsSchema } from "../../lib/zod/schemas";
 import fetchingAllPresentations from "../../action/fetchingAllPresentations";
 import PresentationCard from "@/components/ui/PresentationCard";
 import dateFormater from "@/lib/helper/dateFormater";
+import { useEffect, useState } from "react";
 
 /**
  * Server Component page that displays all presentations.
@@ -18,11 +19,38 @@ import dateFormater from "@/lib/helper/dateFormater";
  * @throws {Error} Throws an error if fetching presentations fails.
  */
 
-export default async function PresetationPage() {
-    const presentationsData = await fetchingAllPresentations();
+export default function PresetationPage() {
+    const [data, setData] = useState<Presentation[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    //validte with Zod
-    const data: Presentation[] = PresentationsSchema.parse(presentationsData);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Fetch the data from the newly created API route
+                const response = await fetch('/api/presentations');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const json = await response.json();
+
+                // Validate with Zod
+                const validatedData = PresentationsSchema.parse(json);
+                setData(validatedData);
+            } catch (err) {
+                console.error("Client fetch error:", err);
+
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    if (isLoading) return <div>Loading presentations...</div>;
+
 
     return (
         <div>
@@ -36,7 +64,7 @@ export default async function PresetationPage() {
                 <CreateNewPresentation />
                 {
                     data.map((presentation) => {
-                        const date = dateFormater(presentation.updatedAt.toISOString())
+                        const date = dateFormater(presentation.updatedAt)
                         return (
                             <PresentationCard
                                 key={presentation.id}

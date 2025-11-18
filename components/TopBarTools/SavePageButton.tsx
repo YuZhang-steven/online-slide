@@ -1,3 +1,4 @@
+"use client";
 import { Save } from "lucide-react";
 import ToolButton from "../ui/ToolButton";
 import { getDeletedContentsIDArray } from "../globalState/deletedContentSet";
