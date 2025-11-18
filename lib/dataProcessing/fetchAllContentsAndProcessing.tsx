@@ -11,6 +11,14 @@ type PageWithContent = Prisma.PageGetPayload<{
     };
 }>;
 
+/**
+ * Fetches all content for a given page and presentation, categorizes them
+ * by type (TEXT, IMAGE, VIDEO), and stores each content item in the global `contentsMap`.
+ *
+ * @param {Props} props - Object containing `pageID` and `presentationID`
+ * @returns {Promise<{textIDs: string[], imageIDs: string[], videoIDs: string[]}>} 
+ *          An object containing arrays of IDs for each content type
+ */
 export default async function fetchAllContentsAndProcessing({ pageID, presentationID }: Props) {
     // Fetch contents from the API
     const data = await fetchContents(pageID, presentationID);
@@ -27,8 +35,6 @@ export default async function fetchAllContentsAndProcessing({ pageID, presentati
         }
     }
     const contents = data.content;
-
-
 
     // Process and categorize contents by type, then store in contentsMap
     contents.forEach((contentItem) => {
@@ -56,6 +62,13 @@ export default async function fetchAllContentsAndProcessing({ pageID, presentati
 }
 
 
+/**
+ * Fetches the page data including content from the backend API.
+ *
+ * @param {string} pageID - The ID of the page
+ * @param {string} presentationId - The ID of the presentation
+ * @returns {Promise<PageWithContent | null>} The fetched page with content, or null on error
+ */
 
 async function fetchContents(pageID: string, presentationId: string): Promise<PageWithContent | null> {
     try {

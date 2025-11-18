@@ -2,6 +2,23 @@
 import { ContentLocal, contentsMap } from "@/components/globalState/contentsMap";
 import Konva from "konva";
 import { useEffect } from "react";
+/**
+ * Custom hook to handle transformations (resize, rotate) and dragging
+ * for a Konva node representing content on the canvas.
+ *
+ * Updates both the local React state and the global `contentsMap`.
+
+ * @param {string} props.id - The unique ID of the content
+ * @param {ContentLocal | undefined} props.content - The content object from contentsMap
+ * @param {React.RefObject<Konva.Node | null>} props.contentRef - Ref to the Konva node (Text/Image/Video)
+ * @param {React.RefObject<Konva.Transformer | null>} props.transformerRef - Ref to the Konva Transformer
+ * @param {React.Dispatch<React.SetStateAction<ContentLocal | undefined>>} props.localStateSetter - Local state setter for the content
+ * @param {HTMLImageElement | HTMLVideoElement | string | null} [props.loadTag] - Optional image/video tag used to trigger the transformer update
+ *
+ * @returns {Object} - Handlers for Konva events
+ * @returns {function} return.handleTransformEnd - Call when a transform ends to update state
+ * @returns {function} return.handleDragEnd - Call when a drag ends to update state
+ */
 
 type Prop = {
     id: string,

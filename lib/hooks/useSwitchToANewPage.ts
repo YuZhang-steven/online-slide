@@ -6,7 +6,17 @@ type SwitchToANewPageInputType = {
     pageIndex: number,
 }
 
-//Handle jump to a new page and update the url search params
+/**
+ * Custom hook to switch to a different page in the editor.
+ * Updates both the global page state and the URL search parameters.
+ *
+ * @returns {Object} An object containing the `switchToANewPage` function.
+ *
+ * @example
+ * const { switchToANewPage } = useSwitchToANewPage();
+ * switchToANewPage({ pageID: "abc123", pageIndex: 2 });
+ */
+
 export default function useSwitchToANewPage() {
     const router = useRouter();
     const pathname = usePathname();
