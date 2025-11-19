@@ -18,7 +18,7 @@ A simple full-stack web application that allows users to create presentations, m
 
 ### Content Editing
 
-- Add text, images, or videos to a page
+- Add and delete text, images, or videos to a page
 - Drag and move content anywhere within the page
 - Resize and rotate content
 
@@ -78,20 +78,31 @@ R2_PUBLIC_URL=
 ### Backend
 
 Next.js API routes
+
 TypeScript – Shared domain types
+
 Zod – Runtime validation + schema inference
+
 Prisma – Type-safe ORM for database access
+
 PostgreSQL – Relational data persistence
+
 Cloudflare R2 – Object storage for images/videos
 
 ### Frontend
 
 Next.js – React framework + routing
+
 TypeScript – strict typing
+
 Zustand – Lightweight global state management
+
 Konva / react-konva – canvas-based editor for drag/resize/rotate
+
 use-image – Image loading helper for Konva
+
 TailwindCSS – Utility-first styling
+
 Shadcn/UI – Reusable, accessible UI components
 
 ## Project Structure
