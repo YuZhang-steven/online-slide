@@ -24,24 +24,14 @@ type Prop = {
     id: string,
     content: ContentLocal | undefined,
     contentRef: React.RefObject<Konva.Node | null>,
-    transformerRef: React.RefObject<Konva.Transformer | null>,
     localStateSetter: React.Dispatch<React.SetStateAction<ContentLocal | undefined>>,
-    loadTag?: HTMLImageElement | string | HTMLVideoElement | null
 }
 
-export default function useTransformationHandle(
-    { id, content, transformerRef,
+export default function useTransformationSave(
+    { id, content,
         contentRef, localStateSetter,
-        loadTag = "tag"
     }: Prop
 ) {
-    //handle transformer(resize and rotate) when content changes
-    useEffect(() => {
-        if (loadTag && transformerRef.current && contentRef.current) {
-            transformerRef.current.nodes([contentRef.current]);
-            transformerRef.current.getLayer()?.batchDraw();
-        }
-    }, [id, content, transformerRef, contentRef, loadTag])
 
     // update the contentsMap when transform ends
     function handleTransformEnd() {

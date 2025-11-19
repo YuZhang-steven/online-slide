@@ -3,7 +3,7 @@ import { Text, Transformer } from 'react-konva'
 import { contentsMap } from '../globalState/contentsMap'
 import { useEffect, useRef, useState } from 'react';
 import Konva from 'konva';
-import useTransformationHandle from '@/lib/hooks/useTransformationHandle';
+import useTransformationSave from '@/lib/hooks/useTransformationSave';
 import { useCurrentSelectedItem } from '../globalState/useCurrentSelectedItem';
 import { set } from 'zod';
 
@@ -33,7 +33,7 @@ type Props = {
 }
 
 export default function TextContent({ id }: Props) {
-    const setSelecting = useCurrentSelectedItem.getState().setCurrentSelectedItemID;
+    ;
     const textRef = useRef<Konva.Text | null>(null)
     const transformerRef = useRef<Konva.Transformer | null>(null);
 
@@ -47,7 +47,6 @@ export default function TextContent({ id }: Props) {
     //handle click outside to finish editing
     function handleClickOutside(event: MouseEvent) {
         console.log("Handling click outside for text content:", id);
-
         setInSelected(false);
     }
 
@@ -64,7 +63,7 @@ export default function TextContent({ id }: Props) {
     }, [inSelected])
 
     //handle transformer(resize and rotate) when content changes
-    const { handleTransformEnd, handleDragEnd } = useTransformationHandle({
+    const { handleTransformEnd, handleDragEnd } = useTransformationSave({
         id,
         content,
         contentRef: textRef,
@@ -171,9 +170,7 @@ export default function TextContent({ id }: Props) {
                 onClick={handleTextClick}
                 onTap={handleTextClick}
             />
-            {
-                inSelected &&
-            }
+
             <Transformer
                 ref={transformerRef}
                 rotateEnabled={true}

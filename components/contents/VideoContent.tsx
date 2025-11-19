@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { contentsMap } from "../globalState/contentsMap"
 import { Image, Transformer } from "react-konva";
 import Konva from "konva";
-import useTransformationHandle from "@/lib/hooks/useTransformationHandle";
+import useTransformationSave from "@/lib/hooks/useTransformationSave";
 
 /**
  * Renders a video content block on the slide canvas with support for drag, resize, rotation, and live playback.
@@ -76,7 +76,7 @@ export default function VideoContent({ id }: Props) {
     }, [videoElement]);
 
     // handle transformer / resize
-    const { handleTransformEnd, handleDragEnd } = useTransformationHandle({
+    const { handleTransformEnd, handleDragEnd } = useTransformationSave({
         id,
         content,
         contentRef: videoRef,

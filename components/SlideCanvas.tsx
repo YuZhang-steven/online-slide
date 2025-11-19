@@ -9,6 +9,8 @@ import Konva from "konva";
 import { useCurrentPageStore } from "./globalState/useCurrentPageStore";
 import { useCurrentPageContentStore } from "./globalState/useCurrentPageContentStore";
 import fetchAllContentsAndProcessing from "@/lib/dataProcessing/fetchAllContentsAndProcessing";
+import ContentTransformer from "./contents/ContentTransformer";
+import { useCurrentSelectedItem } from "./globalState/useCurrentSelectedItem";
 
 /**
  * SlideCanvas component for the presentation editor.
@@ -39,6 +41,8 @@ export default function SlideCanvas({ presentationID }: SlideCanvasProps) {
     const setTextContents = useCurrentPageContentStore.getState().setTextContents;
     const setImageContents = useCurrentPageContentStore.getState().setImageContents;
     const setVideoContents = useCurrentPageContentStore.getState().setVideoContents;
+
+    const setGlobalSelectedItem = useCurrentSelectedItem.getState().setCurrentSelectedItem;
 
     //fetch all contents if currentPageID changes
     useEffect(() => {
@@ -78,6 +82,14 @@ export default function SlideCanvas({ presentationID }: SlideCanvasProps) {
         }
     }, [])
 
+    function handleEmptyClick(e: Konva.KonvaEventObject<MouseEvent>) {
+        //checdk if clicked on starge itself and not on any shape
+        //if so, clear selection
+        if (e.target === e.target.getStage()) {
+            setGlobalSelectedItem({ id: null, ref: null });
+        }
+    }
+
 
     if (!currentPageID) {
         return null;
@@ -102,12 +114,17 @@ export default function SlideCanvas({ presentationID }: SlideCanvasProps) {
                 }}
 
             >
-                <Stage width={1024} height={798} ref={stageRef}>
+                <Stage
+                    width={1024} height={798}
+                    ref={stageRef}
+                    onMouseDown={handleEmptyClick}
+                >
                     <Layer ref={layerRef}>
 
                         <RenderingTextContent />
                         <RenderingImageContent />
                         <RenderingVideoContent />
+                        <ContentTransformer />
 
                     </Layer>
 

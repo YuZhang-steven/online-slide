@@ -1,9 +1,10 @@
-import { Image, Transformer } from "react-konva";
+import { Image } from "react-konva";
 import { contentsMap } from "../globalState/contentsMap";
 import { useRef, useState } from "react";
 import Konva from "konva";
-import useTransformationHandle from "@/lib/hooks/useTransformationHandle";
+import useTransformationSave from "@/lib/hooks/useTransformationSave";
 import useImage from "use-image";
+import { useCurrentSelectedItem } from "../globalState/useCurrentSelectedItem";
 
 /**
  * Renders an image content block on the slide canvas with support for drag, resize, and rotation.
@@ -29,22 +30,22 @@ type Props = {
 
 export default function ImageContent({ id }: Props) {
     const imageRef = useRef<Konva.Image | null>(null)
-    const transformerRef = useRef<Konva.Transformer | null>(null);
+
+    const setGlobalSelectedItem = useCurrentSelectedItem.getState().setCurrentSelectedItem;
+    function handleClick() {
+        setGlobalSelectedItem({ id, ref: imageRef });
+    }
 
     //get image content from contentsMap
     const [content, setContent] = useState(contentsMap.get(id));
-
-
     // Load image using the URL
     const [img] = useImage(content?.url || "", "anonymous");
     //handle transformer(resize and rotate) when content changes
-    const { handleTransformEnd, handleDragEnd } = useTransformationHandle({
+    const { handleTransformEnd, handleDragEnd } = useTransformationSave({
         id,
         content,
         contentRef: imageRef,
-        transformerRef,
         localStateSetter: setContent,
-        loadTag: img
     })
 
 
@@ -59,23 +60,13 @@ export default function ImageContent({ id }: Props) {
                 y={content.y}
                 width={content.width}
                 height={content.height}
+                rotation={content.rotation}
                 image={img}
                 draggable
                 onTransformEnd={handleTransformEnd}
                 onDragEnd={handleDragEnd}
-            />
-
-            <Transformer
-                ref={transformerRef}
-                rotateEnabled={true}
-                enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
-                boundBoxFunc={(oldBox, newBox) => {
-                    // prevent too small size
-                    if (newBox.width < 20 || newBox.height < 20) {
-                        return oldBox;
-                    }
-                    return newBox;
-                }}
+                onClick={handleClick}
+                onTap={handleClick}
             />
         </>
 
