@@ -1,6 +1,7 @@
 "use client";
 import useSwitchToANewPage from "@/lib/hooks/useSwitchToANewPage";
 import { Card, CardFooter } from "./card"
+import { useCurrentSelectedItem } from "../globalState/useCurrentSelectedItem";
 
 type Props = {
     pageID: string
@@ -27,10 +28,13 @@ export default function PageCard({
     pageID, index, presentationID, setPageList, pageList }: Props) {
 
     const { switchToANewPage } = useSwitchToANewPage();
+    const setGlobalSelectedItem = useCurrentSelectedItem.getState().setCurrentSelectedItem;
 
     //handle click th page card and update the url search params
     function handleClick() {
         switchToANewPage({ pageID: pageID, pageIndex: index });
+        //clear global selected item
+        setGlobalSelectedItem({ id: null, ref: null });
 
     }
     //handle delete page
