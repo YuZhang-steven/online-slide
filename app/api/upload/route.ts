@@ -46,7 +46,7 @@ export async function POST(request: Request): Promise<Response> {
 
         const url = `${process.env.R2_PUBLIC_URL}/${name}`;
         return new Response(JSON.stringify(
-            { url }),
+            { url, name }),
             {
                 status: 201,
                 headers: { 'Content-Type': 'application/json' }

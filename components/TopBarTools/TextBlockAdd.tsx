@@ -41,7 +41,8 @@ export default function TextBlockAdd({ pageID }: Props) {
             height: 50,
             rotation: 0,
             text: "New Text",
-            url: null
+            url: null,
+            fileName: null,
         }
         // Add the new text content to the contentsMap
         contentsMap.set(randomID, newTextContent)

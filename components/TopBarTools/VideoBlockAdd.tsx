@@ -84,6 +84,7 @@ export default function VideoBlockAdd({ pageID }: Props) {
                             height: video.videoHeight,
                             url: url,
                             text: null,
+                            fileName: file.name,
                         }
                         contentsMap.set(newItem.id, newItem);
                         const currentContents = useCurrentPageContentStore.getState().videoContents;

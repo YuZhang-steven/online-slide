@@ -151,14 +151,7 @@ export async function PUT(
     }
 
     const { order, contents, deletedContentIds } = data;
-    console.log(
-        "Updating Page:", {
-        pageID,
-        order,
-        contents,
-        deletedContentIds
-    }
-    );
+
 
 
     try {
@@ -186,6 +179,7 @@ export async function PUT(
                             rotation: item.rotation,
                             text: item.text ?? null,
                             url: item.url ?? null,
+                            fileName: item.fileName ?? null,
                         }
                     })
                 } else {

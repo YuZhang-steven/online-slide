@@ -34,6 +34,7 @@ export default function ImageBlockAdd({ pageID }: Props) {
         input.onchange = (e) => {
             const file = (e.target as HTMLInputElement).files?.[0];
             if (!file) return;
+            const newFileName = `${crypto.randomUUID()}_${file.name}`;
 
             const reader = new window.FileReader();
             reader.onload = async () => {
@@ -50,7 +51,7 @@ export default function ImageBlockAdd({ pageID }: Props) {
                                 'Content-Type': 'application/json'
                             },
                             body: JSON.stringify({
-                                name: `${crypto.randomUUID()}_${file.name}`,
+                                name: newFileName,
                                 type: file.type,
                                 data: fileData
                             })
@@ -73,6 +74,7 @@ export default function ImageBlockAdd({ pageID }: Props) {
                             rotation: 0,
                             url: url,
                             text: null,
+                            fileName: newFileName,
                         }
                         contentsMap.set(newItem.id, newItem);
                         const currentContents = useCurrentPageContentStore.getState().imageContents;

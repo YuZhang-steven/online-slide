@@ -41,7 +41,11 @@ export default function DeleteBlock() {
         }
 
         //remove from global contents map and add to deleted set
+
+
         deletedContentSet.add(item);
+        console.log("deletedContentSet:", deletedContentSet.size);
+
         const deleted = contentsMap.delete(currentSelectedID!);
         if (deleted) {
             //clear selection

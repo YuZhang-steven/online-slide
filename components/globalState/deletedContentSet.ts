@@ -29,3 +29,15 @@ export function getDeletedContentsUrlArray() {
     }
     return res;
 }
+
+export function getDeletedContentsNameArray() {
+    const res: string[] = [];
+    for (const content of deletedContentSet) {
+        if (content.fileName) {
+            res.push(content.fileName);
+        }
+    }
+    console.log("getDeletedContentsNameArray:", res);
+
+    return res;
+}

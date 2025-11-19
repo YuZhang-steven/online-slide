@@ -34,6 +34,7 @@ export const ContentSchema = z.object({
     rotation: z.number().default(0),
     text: z.string().optional().nullable(),
     url: z.string().optional().nullable(),
+    fileName: z.string().optional().nullable(),
 })
 export const UpdatePageSchema = z.object({
     order: z.number().int(),
@@ -43,5 +44,5 @@ export const UpdatePageSchema = z.object({
 export type UpdatePageInput = z.infer<typeof UpdatePageSchema>;
 
 export const DeleteFileeFromR2Schema = z.object({
-    keys: z.array(z.string()).min(1)
+    keys: z.array(z.string())
 })

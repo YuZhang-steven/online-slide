@@ -1,7 +1,7 @@
 "use client";
 import { Save } from "lucide-react";
 import ToolButton from "../ui/ToolButton";
-import { getDeletedContentsIDArray, getDeletedContentsUrlArray } from "../globalState/deletedContentSet";
+import { getDeletedContentsIDArray, getDeletedContentsNameArray, getDeletedContentsUrlArray } from "../globalState/deletedContentSet";
 import { UpdatePageInput } from "@/lib/zod/schemas";
 import { packageContentArray } from "../globalState/contentsMap";
 /**
@@ -28,7 +28,11 @@ export default function SavePageButton({ pageID, presentationID, pageIndex }: Pr
      */
     async function handleClick() {
         const deletedContentIDs = getDeletedContentsIDArray();
-        const deleteURLs = getDeletedContentsUrlArray();
+        // const deleteURLs = getDeletedContentsUrlArray();
+        const deleteFileNames = getDeletedContentsNameArray();
+        console.log("delated file names:", deleteFileNames);
+
+
 
         const updateData: UpdatePageInput = {
             order: pageIndex,
@@ -47,13 +51,22 @@ export default function SavePageButton({ pageID, presentationID, pageIndex }: Pr
                 console.error('Failed to save page', await res.text());
                 return;
             }
-            const resR2 = await fetch(`/api/upload`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ urls: deleteURLs }),
-            })
+            if (deleteFileNames.length > 0) {
+                const resR2 = await fetch(`/api/upload`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        keys: deleteFileNames
+                    }),
+                })
+                if (!resR2.ok) {
+                    console.error('Failed to delete files from R2', await resR2.text());
+                    return;
+                }
+            }
+
 
             window.location.reload();
 
