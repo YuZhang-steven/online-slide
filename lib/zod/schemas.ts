@@ -41,3 +41,7 @@ export const UpdatePageSchema = z.object({
     deletedContentIds: z.array(z.string()).optional(),
 })
 export type UpdatePageInput = z.infer<typeof UpdatePageSchema>;
+
+export const DeleteFileeFromR2Schema = z.object({
+    keys: z.array(z.string()).min(1)
+})

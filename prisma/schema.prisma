@@ -41,6 +41,7 @@ model Content {
   rotation Float       @default(0)
   text     String?
   url      String?
+  fileName String?
 }
 
 enum ContentType {

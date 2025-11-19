@@ -1,7 +1,7 @@
 "use client";
 import { Save } from "lucide-react";
 import ToolButton from "../ui/ToolButton";
-import { getDeletedContentsIDArray } from "../globalState/deletedContentSet";
+import { getDeletedContentsIDArray, getDeletedContentsUrlArray } from "../globalState/deletedContentSet";
 import { UpdatePageInput } from "@/lib/zod/schemas";
 import { packageContentArray } from "../globalState/contentsMap";
 /**
@@ -28,6 +28,7 @@ export default function SavePageButton({ pageID, presentationID, pageIndex }: Pr
      */
     async function handleClick() {
         const deletedContentIDs = getDeletedContentsIDArray();
+        const deleteURLs = getDeletedContentsUrlArray();
 
         const updateData: UpdatePageInput = {
             order: pageIndex,
@@ -46,6 +47,14 @@ export default function SavePageButton({ pageID, presentationID, pageIndex }: Pr
                 console.error('Failed to save page', await res.text());
                 return;
             }
+            const resR2 = await fetch(`/api/upload`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ urls: deleteURLs }),
+            })
+
             window.location.reload();
 
         } catch (error) {

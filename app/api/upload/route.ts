@@ -1,6 +1,6 @@
 import { s3Client } from "@/lib/s3Client";
-import { uploadToR2Schema } from "@/lib/zod/schemas";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { DeleteFileeFromR2Schema, uploadToR2Schema } from "@/lib/zod/schemas";
+import { DeleteObjectCommand, DeleteObjectsCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 
 /**
  * Uploads a file to Cloudflare R2 storage.
@@ -54,6 +54,55 @@ export async function POST(request: Request): Promise<Response> {
 
     } catch (error) {
         console.error("Error uploading to R2:", error);
+        return new Response("Internal Server Error", { status: 500 });
+    }
+
+}
+
+export async function DELETE(request: Request): Promise<Response> {
+    let body;
+    try {
+        body = await request.json();
+    } catch (error) {
+        return new Response("Bad Request: Invalid JSON", { status: 400 });
+    }
+
+    //validate with zon
+    const parseResult = DeleteFileeFromR2Schema.safeParse(body);
+    if (!parseResult.success) {
+        return new Response("Bad Request: " + JSON.stringify(parseResult.error.issues), { status: 400 });
+    }
+    const { keys } = parseResult.data;
+
+
+    try {
+        const command = new DeleteObjectsCommand({
+            Bucket: process.env.R2_BUCKET_NAME!,
+            Delete: {
+                Objects: keys.map((key) => ({ Key: key })),
+                Quiet: false,
+            },
+        })
+
+        const res = await s3Client.send(command);
+        if (!res) {
+            return new Response("Error deleting files", { status: 500 });
+        }
+
+        if (res.Errors && res.Errors.length > 0) {
+            console.log("Some errors occurred while deleting files:", res.Errors);
+        }
+
+        return new Response(
+            JSON.stringify({
+                message: "Files deleted",
+                deleted: res.Deleted,
+                errors: res.Errors || []
+            }), { status: 200 });
+
+
+    } catch (error) {
+        console.error("Error deleting from R2:", error);
         return new Response("Internal Server Error", { status: 500 });
     }
 

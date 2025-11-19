@@ -21,5 +21,11 @@ export function getDeletedContentsIDArray() {
  * Useful if you want to remove files from cloud storage.
  */
 export function getDeletedContentsUrlArray() {
-    return Array.from(deletedContentSet).map(content => content.url);
+    const res: string[] = [];
+    for (const content of deletedContentSet) {
+        if (content.url) {
+            res.push(content.url);
+        }
+    }
+    return res;
 }
