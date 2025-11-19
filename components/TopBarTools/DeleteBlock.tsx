@@ -29,7 +29,6 @@ export default function DeleteBlock() {
             case "TEXT":
                 newArr = getTextArr.filter((id) => id !== item.id);
                 setTextArr(newArr);
-
             case "IMAGE":
                 newArr = getImageArr.filter((id) => id !== item.id);
                 setImageArr(newArr);
@@ -41,11 +40,7 @@ export default function DeleteBlock() {
         }
 
         //remove from global contents map and add to deleted set
-
-
         deletedContentSet.add(item);
-        console.log("deletedContentSet:", deletedContentSet.size);
-
         const deleted = contentsMap.delete(currentSelectedID!);
         if (deleted) {
             //clear selection

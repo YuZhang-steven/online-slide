@@ -28,11 +28,7 @@ export default function SavePageButton({ pageID, presentationID, pageIndex }: Pr
      */
     async function handleClick() {
         const deletedContentIDs = getDeletedContentsIDArray();
-        // const deleteURLs = getDeletedContentsUrlArray();
         const deleteFileNames = getDeletedContentsNameArray();
-        console.log("delated file names:", deleteFileNames);
-
-
 
         const updateData: UpdatePageInput = {
             order: pageIndex,
@@ -66,8 +62,6 @@ export default function SavePageButton({ pageID, presentationID, pageIndex }: Pr
                     return;
                 }
             }
-
-
             window.location.reload();
 
         } catch (error) {

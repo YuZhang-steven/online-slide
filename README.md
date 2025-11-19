@@ -141,6 +141,7 @@ public/             # Static assets
 
 /api/upload
     POST → upload objects to R2 Bucket
+    DELETE → delete objects from R2 Bucket
 
 ```
 
@@ -148,7 +149,8 @@ public/             # Static assets
 
 This project is built using the Next.js App Router. The app is divided into two main parts:
 
-1.The presentation list
+1. The presentation list
+
 2. The single-presentation editor
 
 All presentations, pages, and content items are stored in the database. Images and videos are uploaded to Cloudflare R2.  
@@ -163,7 +165,7 @@ Design considerations:
 
 - Pages use a float “order” value (e.g., 1.1, 1.113, 1.23).This allows inserting pages without reordering the entire sequence. The frontend sorts pages and derives indices.
 - Content positions and sizes are stored as floats, matching Konva’s coordinate system.
-- Text content is stored directly in the database; image and video content stores the corresponding R2 URLs.
+- Text content is stored directly in the database; image and video content stores the corresponding R2 URLs and their file name.
 
 ### Backend
 
@@ -173,12 +175,13 @@ In addition to REST API endpoints, there are a few server-side helper functions 
 
 - addNewPage
 - fetchAllPages
-- fetchAllPresentations
 
 ### Frontend
 
 The core of the presentation editor is a 2D canvas powered by Konva, which provides built-in dragging, rotation, and resizing.
 
+FrontEnd Storage:
+![Global State and Storage Map](./public/doc/GlobalState.jpg)
 State management design:
 
 - pageMap stores all pages and their associated content IDs
@@ -188,15 +191,26 @@ State management design:
 - Global state tracks:
   - the current page
   - the content IDs shown on the canvas
+  - the current selected content
 
 When loading a page, the app fetches its contents and add them to the maps.In the canvas component, content IDs are organized into arrays by type then send into global state.
 
 Each content modification is stored locally and the content map.
 When the user saves the page, all changes are batch-uploaded to the database.
 
+Add Content Process:
+![Add Content Process Diagram](./public/doc/AddContent.jpg)
+
+Delete Content Process:
+![Add Content Process Diagram](./public/doc/DeleteContent.jpg)
+
+Save A Page Process:
+![Save A Page Process Diagram](./public/doc/SavePage.jpg)
+
 ### Limitation and Future Improvement
 
-- Delete and copy/paste are not fully implemented.(Requires clearer UI and global selection state.)
 - Undo/Redo requires a history stack for content operations.
+- Frontend Page Map haven't been used. it will help the save page process, so after saving, not reload need. Saving also can be done as whole presentation in the background
+- Image and Video upload can do R2 upload background. Image/Video can load local file at the same time
 - Video handling could be improved.In many cases, linking to YouTube might be more efficient depending on network conditions.
 - Add a configuration model for content styles (text style, image settings, etc.)and another style/config models for pages and presentations as well
