@@ -3,9 +3,9 @@ import { Text, Transformer } from 'react-konva'
 import { contentsMap } from '../globalState/contentsMap'
 import { useEffect, useRef, useState } from 'react';
 import Konva from 'konva';
-import useTransformationSave from '@/lib/hooks/useTransformationSave';
 import { useCurrentSelectedItem } from '../globalState/useCurrentSelectedItem';
-import { set } from 'zod';
+import useTransformationSave from '@/lib/hooks/useTransformationSave';
+
 
 /**
  * Renders a text content block on the slide canvas with support for drag, resize, rotation, and inline editing.
@@ -33,56 +33,34 @@ type Props = {
 }
 
 export default function TextContent({ id }: Props) {
-    ;
     const textRef = useRef<Konva.Text | null>(null)
-    const transformerRef = useRef<Konva.Transformer | null>(null);
+
+    //handle Click Selection
+    const setGlobalSelectedItem = useCurrentSelectedItem.getState().setCurrentSelectedItem;
+    function handleClick() {
+        setIsEditing(true);
+        setGlobalSelectedItem({ id, ref: textRef });
+    }
 
     //get text content from contentsMap
     const [content, setContent] = useState(contentsMap.get(id));
     //state to track if text is being typed
     const [isEditing, setIsEditing] = useState(false);
 
-    const [inSelected, setInSelected] = useState(false);
-
-    //handle click outside to finish editing
-    function handleClickOutside(event: MouseEvent) {
-        console.log("Handling click outside for text content:", id);
-        setInSelected(false);
-    }
-
     useEffect(() => {
-        if (inSelected) {
-            document.addEventListener("mousedown", handleClickOutside);
-        } else {
-            document.removeEventListener("mousedown", handleClickOutside);
+        if (isEditing) {
+            createTextArea();
         }
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        }
-    }, [inSelected])
+    }, [isEditing]);
 
     //handle transformer(resize and rotate) when content changes
     const { handleTransformEnd, handleDragEnd } = useTransformationSave({
         id,
         content,
         contentRef: textRef,
-        transformerRef,
-        localStateSetter: setContent
+        localStateSetter: setContent,
     })
 
-    //handle text editing
-    function handleTextClick() {
-        setIsEditing(true);
-        // setSelecting(id);
-        setInSelected(true);
-    }
-    useEffect(() => {
-        if (isEditing) {
-            createTextArea();
-
-        }
-    }, [isEditing]);
 
     function createTextArea() {
         const textNode = textRef.current;
@@ -161,28 +139,18 @@ export default function TextContent({ id }: Props) {
                 y={content.y}
                 width={content.width}
                 height={content.height}
+                rotation={content.rotation}
                 text={content.text || "Sample Text"}
                 fontSize={24}
                 fill="black"
                 draggable
                 onTransformEnd={handleTransformEnd}
                 onDragEnd={handleDragEnd}
-                onClick={handleTextClick}
-                onTap={handleTextClick}
+                onClick={handleClick}
+                onTap={handleClick}
             />
 
-            <Transformer
-                ref={transformerRef}
-                rotateEnabled={true}
-                enabledAnchors={['middle-left', 'middle-right']}
-                boundBoxFunc={(oldBox, newBox) => {
-                    // prevent too small size
-                    if (newBox.width < 20 || newBox.height < 20) {
-                        return oldBox;
-                    }
-                    return newBox;
-                }}
-            />
+
         </>
 
     )

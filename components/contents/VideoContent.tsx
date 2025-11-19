@@ -3,6 +3,7 @@ import { contentsMap } from "../globalState/contentsMap"
 import { Image, Transformer } from "react-konva";
 import Konva from "konva";
 import useTransformationSave from "@/lib/hooks/useTransformationSave";
+import { useCurrentSelectedItem } from "../globalState/useCurrentSelectedItem";
 
 /**
  * Renders a video content block on the slide canvas with support for drag, resize, rotation, and live playback.
@@ -32,10 +33,23 @@ type Props = {
 
 export default function VideoContent({ id }: Props) {
     const videoRef = useRef<Konva.Image | null>(null);
-    const transformerRef = useRef<Konva.Transformer | null>(null);
+
+    //handle Click Selection
+    const setGlobalSelectedItem = useCurrentSelectedItem.getState().setCurrentSelectedItem;
+    function handleClick() {
+        setGlobalSelectedItem({ id, ref: videoRef });
+    }
 
     const [content, setContent] = useState(contentsMap.get(id));
     const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(content?.video || null);
+
+    //handle transformer(resize and rotate) when content changes
+    const { handleTransformEnd, handleDragEnd } = useTransformationSave({
+        id,
+        content,
+        contentRef: videoRef,
+        localStateSetter: setContent,
+    })
 
     // initialize video
     useEffect(() => {
@@ -75,16 +89,6 @@ export default function VideoContent({ id }: Props) {
         };
     }, [videoElement]);
 
-    // handle transformer / resize
-    const { handleTransformEnd, handleDragEnd } = useTransformationSave({
-        id,
-        content,
-        contentRef: videoRef,
-        transformerRef,
-        localStateSetter: setContent,
-        loadTag: videoElement
-    });
-
     if (!content || !videoElement) return null;
 
     const resumeVideo = () => {
@@ -102,21 +106,17 @@ export default function VideoContent({ id }: Props) {
                 y={content.y}
                 width={content.width}
                 height={content.height}
+                rotation={content.rotation}
                 image={videoElement}
                 draggable
                 cache={false}
                 perfectDrawEnabled={false}
+                onClick={handleClick}
                 onDragEnd={resumeVideo}
                 onTransformEnd={() => {
                     resumeVideo();
                     handleTransformEnd();
                 }}
-            />
-            <Transformer
-                ref={transformerRef}
-                rotateEnabled
-                enabledAnchors={['top-left', 'top-right', 'bottom-left', 'bottom-right']}
-                boundBoxFunc={(oldBox, newBox) => (newBox.width < 20 || newBox.height < 20 ? oldBox : newBox)}
             />
         </>
     );

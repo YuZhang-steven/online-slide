@@ -2,9 +2,10 @@ import { Image } from "react-konva";
 import { contentsMap } from "../globalState/contentsMap";
 import { useRef, useState } from "react";
 import Konva from "konva";
-import useTransformationSave from "@/lib/hooks/useTransformationSave";
+
 import useImage from "use-image";
 import { useCurrentSelectedItem } from "../globalState/useCurrentSelectedItem";
+import useTransformationSave from "@/lib/hooks/useTransformationSave";
 
 /**
  * Renders an image content block on the slide canvas with support for drag, resize, and rotation.
@@ -31,6 +32,7 @@ type Props = {
 export default function ImageContent({ id }: Props) {
     const imageRef = useRef<Konva.Image | null>(null)
 
+    //handle Click Selection
     const setGlobalSelectedItem = useCurrentSelectedItem.getState().setCurrentSelectedItem;
     function handleClick() {
         setGlobalSelectedItem({ id, ref: imageRef });
@@ -40,6 +42,7 @@ export default function ImageContent({ id }: Props) {
     const [content, setContent] = useState(contentsMap.get(id));
     // Load image using the URL
     const [img] = useImage(content?.url || "", "anonymous");
+
     //handle transformer(resize and rotate) when content changes
     const { handleTransformEnd, handleDragEnd } = useTransformationSave({
         id,
