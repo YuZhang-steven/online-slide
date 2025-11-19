@@ -4,6 +4,8 @@ import { contentsMap } from '../globalState/contentsMap'
 import { useEffect, useRef, useState } from 'react';
 import Konva from 'konva';
 import useTransformationHandle from '@/lib/hooks/useTransformationHandle';
+import { useCurrentSelectedItem } from '../globalState/useCurrentSelectedItem';
+import { set } from 'zod';
 
 /**
  * Renders a text content block on the slide canvas with support for drag, resize, rotation, and inline editing.
@@ -31,6 +33,7 @@ type Props = {
 }
 
 export default function TextContent({ id }: Props) {
+    const setSelecting = useCurrentSelectedItem.getState().setCurrentSelectedItemID;
     const textRef = useRef<Konva.Text | null>(null)
     const transformerRef = useRef<Konva.Transformer | null>(null);
 
@@ -38,6 +41,27 @@ export default function TextContent({ id }: Props) {
     const [content, setContent] = useState(contentsMap.get(id));
     //state to track if text is being typed
     const [isEditing, setIsEditing] = useState(false);
+
+    const [inSelected, setInSelected] = useState(false);
+
+    //handle click outside to finish editing
+    function handleClickOutside(event: MouseEvent) {
+        console.log("Handling click outside for text content:", id);
+
+        setInSelected(false);
+    }
+
+    useEffect(() => {
+        if (inSelected) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+    }, [inSelected])
 
     //handle transformer(resize and rotate) when content changes
     const { handleTransformEnd, handleDragEnd } = useTransformationHandle({
@@ -51,6 +75,8 @@ export default function TextContent({ id }: Props) {
     //handle text editing
     function handleTextClick() {
         setIsEditing(true);
+        // setSelecting(id);
+        setInSelected(true);
     }
     useEffect(() => {
         if (isEditing) {
@@ -145,6 +171,9 @@ export default function TextContent({ id }: Props) {
                 onClick={handleTextClick}
                 onTap={handleTextClick}
             />
+            {
+                inSelected &&
+            }
             <Transformer
                 ref={transformerRef}
                 rotateEnabled={true}

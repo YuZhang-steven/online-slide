@@ -1,11 +1,27 @@
+import Konva from "konva";
 import { create } from "zustand";
 
+type ItemSelectInput = {
+    id: string;
+    ref: React.RefObject<Konva.Node | null>;
+}
 type CurrentSelectedItemState = {
     currentSelectedItemID: string | null;
-    setCurrentSelectedItemID: (id: string | null) => void;
+    currentSelectedItemRef: React.RefObject<Konva.Node | null> | null;
+    setCurrentSelectedItem: ({ id, ref }: ItemSelectInput) => void;
 }
+
+
 
 export const useCurrentSelectedItem = create<CurrentSelectedItemState>((set) => ({
     currentSelectedItemID: null,
-    setCurrentSelectedItemID: (id: string | null) => set({ currentSelectedItemID: id }),
+    currentSelectedItemRef: null,
+    setCurrentSelectedItem: ({ id, ref }: ItemSelectInput) => {
+        console.log("Setting current selected item ID to:", id);
+
+        set({
+            currentSelectedItemID: id,
+            currentSelectedItemRef: ref
+        })
+    },
 }));
