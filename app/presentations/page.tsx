@@ -1,7 +1,6 @@
 "use client"
 import CreateNewPresentation from "@/components/ui/CreateNewPresentation";
 import { Presentation, PresentationsSchema } from "../../lib/zod/schemas";
-import fetchingAllPresentations from "../../action/fetchingAllPresentations";
 import PresentationCard from "@/components/ui/PresentationCard";
 import dateFormater from "@/lib/helper/dateFormater";
 import { useEffect, useState } from "react";
